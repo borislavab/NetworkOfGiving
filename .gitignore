@@ -1,0 +1,14 @@
+./server/network-of-giving/HELP.md
+./server/network-of-giving/target/
+!./server/network-of-giving/.mvn/wrapper/maven-wrapper.jar
+!./server/network-of-giving/**/src/main/**
+!./server/network-of-giving/**/src/test/**
+
+### IntelliJ IDEA ###
+./server/network-of-giving/.idea
+./server/network-of-giving/*.iws
+./server/network-of-giving/*.iml
+./server/network-of-giving/*.ipr
+
+### VS Code ###
+./server/network-of-giving/.vscode/
