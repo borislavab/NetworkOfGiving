@@ -3,5 +3,9 @@ package com.example.networkofgiving.repositories;
 import com.example.networkofgiving.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface IUserRepository extends JpaRepository<User, String> {
+import java.util.Optional;
+
+public interface IUserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByUsername(String username);
 }
+

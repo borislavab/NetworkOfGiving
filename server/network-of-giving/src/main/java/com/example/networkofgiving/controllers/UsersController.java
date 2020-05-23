@@ -3,10 +3,9 @@ package com.example.networkofgiving.controllers;
 import com.example.networkofgiving.entities.User;
 import com.example.networkofgiving.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import javax.persistence.EntityExistsException;
 
 @RestController
 @RequestMapping("/users")
@@ -32,6 +31,6 @@ public class UsersController {
     }
 
     @ResponseStatus(code = HttpStatus.CONFLICT, reason = "Username already exists!")
-    @ExceptionHandler(EntityExistsException.class)
+    @ExceptionHandler(DataIntegrityViolationException.class)
     public void conflict() { }
 }

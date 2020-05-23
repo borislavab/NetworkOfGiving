@@ -19,14 +19,11 @@ public class UserService implements IUserService {
 
     @Override
     public User getUserByUsername(String username) {
-        return userRepository.findById(username).orElse(null);
+        return userRepository.findByUsername(username).orElse(null);
     }
 
     @Override
     public void register(User user) {
-        if (this.userRepository.existsById(user.getUsername())) {
-            throw new EntityExistsException("Username already exists!");
-        }
         String password = user.getPassword();
         String encodedPassword = passwordEncoder.encode(password);
         user.setPassword(encodedPassword);
