@@ -33,4 +33,8 @@ public class UsersController {
     @ResponseStatus(code = HttpStatus.CONFLICT, reason = "Username already exists!")
     @ExceptionHandler(DataIntegrityViolationException.class)
     public void conflict() { }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Invalid username or password!")
+    @ExceptionHandler(IllegalArgumentException.class)
+    public void badRequest() { }
 }
