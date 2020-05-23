@@ -1,7 +1,8 @@
 package com.example.networkofgiving.security;
 
+import com.example.networkofgiving.entities.User;
+import com.example.networkofgiving.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,11 +17,19 @@ public class DatabaseUserDetailsService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private IUserService userService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (username.equals("username")) {
-            return new User("username", passwordEncoder.encode("password"), new ArrayList<>());
+        User user = this.userService.getUserByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("No such username: " + username);
         }
-        throw new UsernameNotFoundException("No such username: " + username);
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                new ArrayList<>()
+        );
     }
 }
