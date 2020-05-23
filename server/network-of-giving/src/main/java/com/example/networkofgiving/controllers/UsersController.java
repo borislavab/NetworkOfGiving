@@ -5,6 +5,9 @@ import com.example.networkofgiving.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -14,9 +17,18 @@ public class UsersController {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     @PostMapping("/login")
-    public String login() {
-        return "Logged in!";
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void login(@RequestBody User user) {
+        this.authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        user.getUsername(),
+                        user.getPassword()
+                )
+        );
     }
 
     @PostMapping("/register")
@@ -35,6 +47,6 @@ public class UsersController {
     public void conflict() { }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST, reason = "Invalid username or password!")
-    @ExceptionHandler(IllegalArgumentException.class)
+    @ExceptionHandler({IllegalArgumentException.class, BadCredentialsException.class})
     public void badRequest() { }
 }
