@@ -1,13 +1,19 @@
 package com.example.networkofgiving.controllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.networkofgiving.entities.User;
+import com.example.networkofgiving.services.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.EntityExistsException;
 
 @RestController
 @RequestMapping("/users")
 public class UsersController {
+
+    @Autowired
+    private IUserService userService;
 
     @PostMapping("/login")
     public String login() {
@@ -15,12 +21,17 @@ public class UsersController {
     }
 
     @PostMapping("/register")
-    public String register() {
-        return "Registered!";
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void register(@RequestBody User user) {
+        this.userService.register(user);
     }
 
     @GetMapping("/authenticated")
     public String authenticated() {
         return "Authenticated!";
     }
+
+    @ResponseStatus(code = HttpStatus.CONFLICT, reason = "Username already exists!")
+    @ExceptionHandler(EntityExistsException.class)
+    public void conflict() { }
 }
