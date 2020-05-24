@@ -1,6 +1,9 @@
 package com.example.networkofgiving.controllers;
 
 import com.example.networkofgiving.entities.User;
+import com.example.networkofgiving.models.JwtAuthenticationResponse;
+import com.example.networkofgiving.security.AuthenticatedUserInfo;
+import com.example.networkofgiving.security.JwtUtil;
 import com.example.networkofgiving.services.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -8,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,15 +24,23 @@ public class UsersController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @PostMapping("/login")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void login(@RequestBody User user) {
-        this.authenticationManager.authenticate(
+    public JwtAuthenticationResponse login(@RequestBody User user) {
+        String username = user.getUsername();
+        String password = user.getPassword();
+        Authentication auth = this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        user.getUsername(),
-                        user.getPassword()
+                        username,
+                        password
                 )
         );
+        AuthenticatedUserInfo principal = (AuthenticatedUserInfo)auth.getPrincipal();
+        String principalId = String.valueOf(principal.getId());
+        JwtAuthenticationResponse tokenAuthenticationResponse = jwtUtil.createTokenAuthenticationResponse(principalId);
+        return tokenAuthenticationResponse;
     }
 
     @PostMapping("/register")

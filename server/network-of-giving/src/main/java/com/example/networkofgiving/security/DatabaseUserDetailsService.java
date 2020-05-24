@@ -21,15 +21,11 @@ public class DatabaseUserDetailsService implements UserDetailsService {
     private IUserService userService;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public AuthenticatedUserInfo loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = this.userService.getUserByUsername(username);
         if (user == null) {
             throw new UsernameNotFoundException("No such username: " + username);
         }
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                new ArrayList<>()
-        );
+        return new AuthenticatedUserInfo(user);
     }
 }

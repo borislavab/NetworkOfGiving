@@ -25,6 +25,11 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
     public void register(User user) {
         if (!isValidUsername(user.getUsername())) {
             throw new IllegalArgumentException("Username invalid!");
