@@ -1,1 +1,15 @@
-<p>login works!</p>
+<h1>Login</h1>
+
+<form clrForm [formGroup]="form">
+    <clr-input-container>
+        <label>Username:</label>
+        <input clrInput type="text" formControlName="username" name="username" />
+        <clr-control-error>Enter username</clr-control-error>
+    </clr-input-container>
+    <clr-input-container>
+        <label>Password</label>
+        <input clrInput type="password" formControlName="password" name="password" />
+        <clr-control-error>Enter password</clr-control-error>
+    </clr-input-container>
+    <button class="btn btn-primary" type="submit" (click)="login()">Login</button>
+</form>
