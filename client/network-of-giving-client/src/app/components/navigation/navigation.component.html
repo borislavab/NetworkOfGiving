@@ -9,7 +9,7 @@
         <div *ngIf="currentUser">
             <clr-icon shape="user" class="user"></clr-icon>
             <span class="user-greeting">Hello, {{currentUser.username}}</span>
-            <button class="btn btn-outline" (click)="logout()">Logout</button>
+            <button class="btn btn-outline" (click)="onLogoutClicked()">Logout</button>
         </div>
         <div *ngIf="!currentUser">
             <button class="btn btn-primary" [routerLink]="['/login']">Login</button>
@@ -17,3 +17,14 @@
         </div>
     </div>
 </clr-header>
+
+<clr-modal [(clrModalOpen)]="logoutClicked" [clrModalStaticBackdrop]="false">
+    <h3 class="modal-title">Are you sure you want to logout?</h3>
+    <div class="modal-body">
+        <p>You will lose access to most of the functionality.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="logoutClicked = false;">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="logout()">Yes, logout</button>
+    </div>
+</clr-modal>

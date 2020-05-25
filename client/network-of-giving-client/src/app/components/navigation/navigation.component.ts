@@ -12,6 +12,7 @@ import { AuthenticatedUser } from 'src/app/authentication/models/authenticated-u
 export class NavigationComponent implements OnInit {
 
   currentUser: AuthenticatedUser;
+  logoutClicked = false;
 
   constructor(private authService: AuthenticationService,
               private router: Router) { }
@@ -24,9 +25,14 @@ export class NavigationComponent implements OnInit {
     );
   }
 
-  logout(): void {
-    this.authService.logout();
-    this.router.navigate(['/logout']);
+  onLogoutClicked() {
+    this.logoutClicked = true; // opens confirmation dialog
   }
 
+  // called upon confirming logout
+  logout(): void {
+    this.logoutClicked = false;
+    this.authService.logout();
+    this.router.navigate(['/']);
+  }
 }
