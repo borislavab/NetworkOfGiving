@@ -36,7 +36,7 @@ export class RegisterComponent implements OnInit {
     Gender = Gender;
 
     constructor(private authService: AuthenticationService,
-        private router: Router) { }
+                private router: Router) { }
 
     ngOnInit(): void {
         this.form = new FormGroup({
@@ -54,26 +54,36 @@ export class RegisterComponent implements OnInit {
         });
     }
 
+    get formValue() {
+        return this.form.value;
+    }
+
     register(): void {
-        this.authService.register(this.form.value)
+        this.authService.register(this.formValue)
             .subscribe(
-                () => this.redirectToHome(),
+                () => this.onRegister(),
                 (error) => this.handleError(error));
     }
 
-    redirectToHome(): void {
-        this.router.navigate(['/']);
+    onRegister(): void {
+        const username = this.formValue.username;
+        const password = this.formValue.password;
+        this.authService.login(username, password)
+            .subscribe(
+                () => this.router.navigate(['/']),
+                () => this.router.navigate(['/login'])
+            );
     }
 
     handleError(error): void {
         this.registrationFailed = true;
         if (error.status && error.status === 409) {
-            this.takenUsername = this.form.value.username;
+            this.takenUsername = this.formValue.username;
             this.form.controls.username.updateValueAndValidity();
         }
     }
 
     isUsernameTaken(): boolean {
-        return !!this.takenUsername && this.form.value.username === this.takenUsername;
+        return !!this.takenUsername && this.formValue.username === this.takenUsername;
     }
 }

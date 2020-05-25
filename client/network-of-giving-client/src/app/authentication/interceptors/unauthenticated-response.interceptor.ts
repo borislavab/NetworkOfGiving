@@ -17,7 +17,7 @@ export class UnauthenticatedResponseInterceptor implements HttpInterceptor {
     private UNAUTHENTICATED_STATUS_CODE = 401;
 
     constructor(private authService: AuthenticationService,
-        private router: Router) { }
+                private router: Router) { }
 
     intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
         return next.handle(request)
