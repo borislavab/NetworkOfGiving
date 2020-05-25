@@ -1,1 +1,19 @@
-<p>navigation works!</p>
+<clr-header>
+    <div class="branding">
+        <a [routerLink]="['/home']" class="nav-link">
+            <clr-icon shape="users" class="logo"></clr-icon>
+            <span class="title">Network of Giving</span>
+        </a>
+    </div>
+    <div class="header-nav navbar-right-container" [clr-nav-level]="1">
+        <div *ngIf="currentUser">
+            <clr-icon shape="user" class="user"></clr-icon>
+            <span class="user-greeting">Hello, {{currentUser.username}}</span>
+            <button class="btn btn-outline" (click)="logout()">Logout</button>
+        </div>
+        <div *ngIf="!currentUser">
+            <button class="btn btn-primary" [routerLink]="['/login']">Login</button>
+            <button class="btn btn-outline" [routerLink]="['/register']">Register</button>
+        </div>
+    </div>
+</clr-header>
