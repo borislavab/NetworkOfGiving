@@ -2,6 +2,7 @@ package com.example.networkofgiving.controllers;
 
 import com.example.networkofgiving.entities.User;
 import com.example.networkofgiving.models.JwtAuthenticationResponse;
+import com.example.networkofgiving.models.RegistrationDTO;
 import com.example.networkofgiving.security.AuthenticatedUserInfo;
 import com.example.networkofgiving.security.JwtUtil;
 import com.example.networkofgiving.services.IUserService;
@@ -45,8 +46,8 @@ public class UsersController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void register(@RequestBody User user) {
-        this.userService.register(user);
+    public void register(@RequestBody RegistrationDTO registrationDTO) {
+        this.userService.register(registrationDTO);
     }
 
     @GetMapping("/authenticated")
