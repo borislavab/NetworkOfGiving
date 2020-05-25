@@ -3,13 +3,35 @@
 <form clrForm [formGroup]="form">
     <clr-input-container>
         <label>Username:</label>
-        <input clrInput type="text" formControlName="username" name="username" />
+        <input clrInput type="text" placeholder="Username..." formControlName="username" name="username" />
         <clr-control-error>Enter username</clr-control-error>
     </clr-input-container>
-    <clr-input-container>
+    <clr-password-container>
         <label>Password</label>
-        <input clrInput type="password" formControlName="password" name="password" />
+        <input clrPassword placeholder="Password..." formControlName="password" name="password" />
         <clr-control-error>Enter password</clr-control-error>
-    </clr-input-container>
-    <button class="btn btn-primary" type="submit" (click)="login()">Login</button>
+    </clr-password-container>
+    <button class="btn btn-primary" type="submit" (click)="login()" [disabled]="!form.valid">
+        Login
+    </button>
 </form>
+<div class="alert alert-danger" role="alert" *ngIf="failedLogin">
+    <div class="alert-items">
+        <div class="alert-item static">
+            <div class="alert-icon-wrapper">
+                <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+            </div>
+            <span class="alert-text">Login failed!</span>
+        </div>
+    </div>
+</div>
+<div class="alert alert-danger" role="alert" *ngIf="invalidCredentials">
+    <div class="alert-items">
+        <div class="alert-item static">
+            <div class="alert-icon-wrapper">
+                <clr-icon class="alert-icon" shape="exclamation-circle"></clr-icon>
+            </div>
+            <span class="alert-text">Credentials are invalid.</span>
+        </div>
+    </div>
+</div>

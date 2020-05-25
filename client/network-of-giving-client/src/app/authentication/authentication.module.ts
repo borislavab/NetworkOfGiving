@@ -13,17 +13,17 @@ export { AuthenticationService } from './services/authentication.service';
 
 
 @NgModule({
-  declarations: [LoginComponent, RegisterComponent],
-  imports: [
-    CommonModule,
-    ClarityModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule
-  ],
-  exports: [],
-  providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true}
-  ]
+    declarations: [LoginComponent, RegisterComponent],
+    imports: [
+        CommonModule,
+        ClarityModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule
+    ],
+    exports: [],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
+    ]
 })
 export class AuthenticationModule { }

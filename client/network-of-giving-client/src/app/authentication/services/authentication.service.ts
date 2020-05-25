@@ -10,47 +10,47 @@ import { AuthenticatedUser } from '../models/authenticated-user.model';
 
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthenticationService {
-  private currentUserSubject: BehaviorSubject<AuthenticatedUser>;
-  public $currentUser: Observable<AuthenticatedUser>;
+    private currentUserSubject: BehaviorSubject<AuthenticatedUser>;
+    public $currentUser: Observable<AuthenticatedUser>;
 
-  constructor(private http: HttpClient,
-              private tokenService: TokenService) {
-      const authenticatedUser = this.getUserInfoFromTokenData();
-      this.currentUserSubject = new BehaviorSubject<AuthenticatedUser>(authenticatedUser);
-      this.$currentUser = this.currentUserSubject.asObservable();
-  }
-
-  public get currentUser(): AuthenticatedUser {
-      return this.currentUserSubject.value;
-  }
-
-  login(username: string, password: string): Observable<TokenResponse> {
-      return this.http.post<TokenResponse>(`${environment.apiUrl}/users/login`, { username, password })
-          .pipe(tap(tokenResponse => this.processTokenResponse(tokenResponse)));
-  }
-
-  logout() {
-    this.tokenService.clearToken();
-    this.currentUserSubject.next(null);
-  }
-
-  private processTokenResponse(tokenResponse: TokenResponse) {
-    this.tokenService.saveTokenResponse(tokenResponse);
-    const authenticatedUser = this.getUserInfoFromTokenData();
-    this.currentUserSubject.next(authenticatedUser);
-  }
-
-  private getUserInfoFromTokenData(): AuthenticatedUser {
-    const tokenData = this.tokenService.data;
-    if (tokenData == null) {
-      return null;
+    constructor(private http: HttpClient,
+        private tokenService: TokenService) {
+        const authenticatedUser = this.getUserInfoFromTokenData();
+        this.currentUserSubject = new BehaviorSubject<AuthenticatedUser>(authenticatedUser);
+        this.$currentUser = this.currentUserSubject.asObservable();
     }
-    return {
-      id: tokenData.id,
-      username: tokenData.username
-    };
-  }
+
+    public get currentUser(): AuthenticatedUser {
+        return this.currentUserSubject.value;
+    }
+
+    login(username: string, password: string): Observable<TokenResponse> {
+        return this.http.post<TokenResponse>(`${environment.apiUrl}/users/login`, { username, password })
+            .pipe(tap(tokenResponse => this.processTokenResponse(tokenResponse)));
+    }
+
+    logout() {
+        this.tokenService.clearToken();
+        this.currentUserSubject.next(null);
+    }
+
+    private processTokenResponse(tokenResponse: TokenResponse) {
+        this.tokenService.saveTokenResponse(tokenResponse);
+        const authenticatedUser = this.getUserInfoFromTokenData();
+        this.currentUserSubject.next(authenticatedUser);
+    }
+
+    private getUserInfoFromTokenData(): AuthenticatedUser {
+        const tokenData = this.tokenService.data;
+        if (tokenData == null) {
+            return null;
+        }
+        return {
+            id: tokenData.id,
+            username: tokenData.username
+        };
+    }
 }
