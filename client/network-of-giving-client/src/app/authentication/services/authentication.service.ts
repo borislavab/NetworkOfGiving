@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { TokenService } from './token.service';
 import { TokenResponse } from '../models/token-response.model';
 import { AuthenticatedUser } from '../models/authenticated-user.model';
+import { RegistrationData } from '../models/registration-data.model';
 
 
 @Injectable({
@@ -17,7 +18,7 @@ export class AuthenticationService {
     public $currentUser: Observable<AuthenticatedUser>;
 
     constructor(private http: HttpClient,
-        private tokenService: TokenService) {
+                private tokenService: TokenService) {
         const authenticatedUser = this.getUserInfoFromTokenData();
         this.currentUserSubject = new BehaviorSubject<AuthenticatedUser>(authenticatedUser);
         this.$currentUser = this.currentUserSubject.asObservable();
@@ -35,6 +36,10 @@ export class AuthenticationService {
     logout() {
         this.tokenService.clearToken();
         this.currentUserSubject.next(null);
+    }
+
+    register(registrationData: RegistrationData): Observable<any> {
+        return this.http.post<any>(`${environment.apiUrl}/users/register`, registrationData);
     }
 
     private processTokenResponse(tokenResponse: TokenResponse) {

@@ -1,0 +1,71 @@
+<h1>Register</h1>
+
+<form clrForm [formGroup]="form">
+    <clr-input-container>
+        <label>Username</label>
+        <input clrInput type="text" placeholder="Username..." formControlName="username" name="username" />
+        <clr-control-error *clrIfError="'required'">Enter username</clr-control-error>
+        <clr-control-error *clrIfError="'minlength'; error as err">Must be at least {{ err.requiredLength }} characters</clr-control-error>
+        <clr-control-error *clrIfError="'pattern'">Must start with a letter and contain only letters, numbers, underscores</clr-control-error>
+        <clr-control-error *clrIfError="'usernameTaken'">Username already exists!</clr-control-error>
+    </clr-input-container>
+    <clr-password-container>
+        <label>Password</label>
+        <input clrPassword placeholder="Password..." formControlName="password" name="password" />
+        <clr-control-error *clrIfError="'required'">Enter password</clr-control-error>
+        <clr-control-error *clrIfError="'minlength'; error as err">Must be at least {{ err.requiredLength }} characters</clr-control-error>
+    </clr-password-container>
+    <clr-input-container>
+        <label>Name</label>
+        <input clrInput type="text" placeholder="Name..." formControlName="name" name="name" />
+        <clr-control-error>Enter name</clr-control-error>
+        <clr-control-helper>Enter your full name</clr-control-helper>
+    </clr-input-container>
+    <clr-input-container>
+        <label>Age</label>
+        <input clrInput type="number" [min]="minimumAge" placeholder="Age..." formControlName="age" name="age" />
+        <clr-control-error *clrIfError="'required'">Enter age</clr-control-error>
+        <clr-control-error *clrIfError="'min'; error as err">
+            Must be at least {{ err.min }}
+        </clr-control-error>
+        <clr-control-helper>Enter years</clr-control-helper>
+    </clr-input-container>
+    <clr-radio-container clrInline>
+        <label>Gender</label>
+        <clr-radio-wrapper>
+          <input type="radio" clrRadio name="gender" formControlName="gender" [value]="Gender.Male" />
+          <label>Male</label>
+        </clr-radio-wrapper>
+        <clr-radio-wrapper>
+          <input type="radio" clrRadio name="gender" formControlName="gender" [value]="Gender.Female"/>
+          <label>Female</label>
+        </clr-radio-wrapper>
+        <clr-radio-wrapper>
+            <input type="radio" clrRadio name="gender" formControlName="gender" [value]="Gender.Other"/>
+            <label>Other</label>
+        </clr-radio-wrapper>
+        <clr-control-helper>Choose 0 or 1</clr-control-helper>
+      </clr-radio-container>
+      <clr-input-container>
+        <label>Location</label>
+        <input clrInput type="text" placeholder="Location..." formControlName="location" name="location" />
+        <clr-control-helper>Enter town</clr-control-helper>
+    </clr-input-container>
+    <button class="btn btn-primary" type="submit" (click)="register()" [disabled]="!form.valid">
+        Register
+    </button>
+    <clr-alert [clrAlertType]="'danger'" *ngIf="registrationFailed" [clrAlertClosable]="false">
+        <clr-alert-item>
+            <span class="alert-text">
+                Registration failed!
+            </span>
+        </clr-alert-item>
+    </clr-alert>
+    <clr-alert [clrAlertType]="'danger'" *ngIf="isUsernameTaken()" [clrAlertClosable]="false">
+        <clr-alert-item>
+            <span class="alert-text">
+                Username already exists.
+            </span>
+        </clr-alert-item>
+    </clr-alert>
+</form>
