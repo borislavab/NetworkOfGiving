@@ -38,8 +38,8 @@ public class UsersController {
                 )
         );
         AuthenticatedUserInfo principal = (AuthenticatedUserInfo)auth.getPrincipal();
-        String principalId = String.valueOf(principal.getId());
-        JwtAuthenticationResponse tokenAuthenticationResponse = jwtUtil.createTokenAuthenticationResponse(principalId);
+        User userPrincipal = principal.getUser();
+        JwtAuthenticationResponse tokenAuthenticationResponse = jwtUtil.createTokenAuthenticationResponse(userPrincipal);
         return tokenAuthenticationResponse;
     }
 

@@ -34,9 +34,11 @@ public class JwtUtil {
         secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    public JwtAuthenticationResponse createTokenAuthenticationResponse(String subject) {
+    public JwtAuthenticationResponse createTokenAuthenticationResponse(User principal) {
 
+        String subject = String.valueOf(principal.getId());
         Claims claims = Jwts.claims().setSubject(subject);
+        claims.put("username", principal.getUsername());
         Date now = new Date();
         Date expiration = new Date(now.getTime() + expirationTime);
 
@@ -47,8 +49,7 @@ public class JwtUtil {
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
 
-        Integer expiresInSeconds = (int)(expirationTime / 1000.0);
-        return new JwtAuthenticationResponse(jwt, expiresInSeconds);
+        return new JwtAuthenticationResponse(jwt);
     }
 
     public Authentication getAuthenticationFromToken(String token) {
