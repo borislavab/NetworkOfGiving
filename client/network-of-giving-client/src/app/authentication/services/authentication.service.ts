@@ -43,7 +43,13 @@ export class AuthenticationService {
     }
 
     isAuthenticated() {
-        return !!this.currentUser;
+        if (this.tokenService.hasValidToken()) {
+            return true;
+        }
+        if (this.currentUser) {
+            this.currentUserSubject.next(null);
+        }
+        return false;
     }
 
     private processTokenResponse(tokenResponse: TokenResponse) {

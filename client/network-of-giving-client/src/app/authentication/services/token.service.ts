@@ -8,13 +8,14 @@ import { TokenData } from '../models/token-data.model';
 export class TokenService {
 
     private tokenResponse: TokenResponse;
-    private tokenData: TokenData;
+    private tokenData: TokenData = null;
     private JWT_KEY_NAME = 'jwt';
 
     constructor() {
         this.tokenResponse = JSON.parse(localStorage.getItem(this.JWT_KEY_NAME));
         if (this.tokenResponse) {
             this.parseTokenData();
+            this.checkToken();
         }
     }
 
@@ -43,9 +44,8 @@ export class TokenService {
     }
 
     hasValidToken(): boolean {
-        return !!this.tokenResponse &&
-            !!this.tokenResponse.access_token &&
-            this.isTokenNonExpired();
+        return !!this.tokenData &&
+            this.checkToken();
     }
 
     get token() {
@@ -62,5 +62,13 @@ export class TokenService {
         expirationDate.setUTCSeconds(tokenExpirationSeconds);
         const currentDate = new Date();
         return currentDate < expirationDate;
+    }
+
+    private checkToken(): boolean {
+        if (this.isTokenNonExpired()) {
+            return true;
+        }
+        this.clearToken();
+        return false;
     }
 }
