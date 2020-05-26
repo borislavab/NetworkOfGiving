@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import { HomeComponent } from './components/home/home.component';
+import { CharityModule } from './charity/charity.module';
 
 @NgModule({
     declarations: [
@@ -22,7 +23,8 @@ import { HomeComponent } from './components/home/home.component';
         ClarityModule,
         BrowserAnimationsModule,
         HttpClientModule,
-        AuthenticationModule
+        AuthenticationModule,
+        CharityModule
     ],
     providers: [],
     bootstrap: [AppComponent]
