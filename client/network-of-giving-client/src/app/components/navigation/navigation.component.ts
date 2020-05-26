@@ -5,34 +5,34 @@ import { AuthenticationService } from 'src/app/authentication/authentication.mod
 import { AuthenticatedUser } from 'src/app/authentication/models/authenticated-user.model';
 
 @Component({
-  selector: 'app-navigation',
-  templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss']
+    selector: 'app-navigation',
+    templateUrl: './navigation.component.html',
+    styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
 
-  currentUser: AuthenticatedUser;
-  logoutClicked = false;
+    currentUser: AuthenticatedUser;
+    logoutClicked = false;
 
-  constructor(private authService: AuthenticationService,
-              private router: Router) { }
+    constructor(private authService: AuthenticationService,
+                private router: Router) { }
 
-  ngOnInit(): void {
-    this.authService.$currentUser.subscribe(
-      (currentUser: AuthenticatedUser) => {
-        this.currentUser = currentUser;
-      }
-    );
-  }
+    ngOnInit(): void {
+        this.authService.$currentUser.subscribe(
+            (currentUser: AuthenticatedUser) => {
+                this.currentUser = currentUser;
+            }
+        );
+    }
 
-  onLogoutClicked() {
-    this.logoutClicked = true; // opens confirmation dialog
-  }
+    onLogoutClicked() {
+        this.logoutClicked = true; // opens confirmation dialog
+    }
 
-  // called upon confirming logout
-  logout(): void {
-    this.logoutClicked = false;
-    this.authService.logout();
-    this.router.navigate(['/']);
-  }
+    // called upon confirming logout
+    logout(): void {
+        this.logoutClicked = false;
+        this.authService.logout();
+        this.router.navigate(['/']);
+    }
 }
