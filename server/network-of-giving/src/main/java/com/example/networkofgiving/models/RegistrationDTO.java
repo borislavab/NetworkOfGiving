@@ -1,14 +1,30 @@
 package com.example.networkofgiving.models;
 
+import javax.validation.constraints.*;
 import java.io.Serializable;
 
 public class RegistrationDTO implements Serializable {
 
+    @NotNull
+    @Pattern(regexp = "^[aA-zZ]\\w{5,29}$")
     private String username;
+
+    @NotNull
+    @Size(min = 6)
     private String password;
+
+    @NotNull
+    @Pattern(regexp = "^[aA-zZ][aA-zZ ]*$")
     private String name;
+
+    @NotNull
+    @Min(value = 1)
+    @Max(value = 150)
     private Integer age;
+
     private Gender gender;
+
+    @Pattern(regexp = "^[aA-zZ][aA-zZ ]*$")
     private String location;
 
     public String getUsername() {

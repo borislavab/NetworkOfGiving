@@ -31,7 +31,6 @@ public class UserService implements IUserService {
 
     @Override
     public void register(RegistrationDTO registrationDTO) {
-        validateRegistrationDTO(registrationDTO);
         String encodedPassword = passwordEncoder.encode(registrationDTO.getPassword());
         registrationDTO.setPassword(encodedPassword);
         User newUser = constructUserFromRegistrationDTO(registrationDTO);
@@ -48,66 +47,5 @@ public class UserService implements IUserService {
                 registrationDTO.getLocation()
         );
         return user;
-    }
-
-    private void validateRegistrationDTO(RegistrationDTO registrationDTO) {
-        if (!isValidUsername(registrationDTO.getUsername())) {
-            throw new IllegalArgumentException("Username invalid!");
-        }
-        if (!isValidPassword(registrationDTO.getPassword())) {
-            throw new IllegalArgumentException("Password invalid!");
-        }
-        if (!isValidName(registrationDTO.getName())) {
-            throw new IllegalArgumentException("Name invalid!");
-        }
-        if (!isValidAge(registrationDTO.getAge())) {
-            throw new IllegalArgumentException("Age invalid!");
-        }
-        if (!isValidLocation(registrationDTO.getLocation())) {
-            throw new IllegalArgumentException("Location invalid!");
-        }
-    }
-
-    private boolean isValidUsername(String username) {
-        if (username == null) {
-            return false;
-        }
-        String regex = "^[aA-zZ]\\w{5,29}$";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(username);
-        return m.matches();
-    }
-
-    private boolean isValidPassword(String password) {
-        if (password == null || password.length() < 6) {
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isValidName(String name) {
-        if (name == null) {
-            return false;
-        }
-
-        String regex = "^[aA-zZ][aA-zZ ]*$";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(name);
-        return m.matches();
-    }
-
-    private boolean isValidAge(Integer age) {
-        return age != null && age > 0;
-    }
-
-    private boolean isValidLocation(String location) {
-        if (location == null) {
-            return true;
-        }
-
-        String regex = "^[aA-zZ][aA-zZ ]*$";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(location);
-        return m.matches();
     }
 }
