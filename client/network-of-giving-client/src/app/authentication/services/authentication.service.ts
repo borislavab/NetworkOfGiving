@@ -42,6 +42,10 @@ export class AuthenticationService {
         return this.http.post<any>(`${environment.apiUrl}/users/register`, registrationData);
     }
 
+    isAuthenticated() {
+        return !!this.currentUser;
+    }
+
     private processTokenResponse(tokenResponse: TokenResponse) {
         this.tokenService.saveTokenResponse(tokenResponse);
         const authenticatedUser = this.getUserInfoFromTokenData();

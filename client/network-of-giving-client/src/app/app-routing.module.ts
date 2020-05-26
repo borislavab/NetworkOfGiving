@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AppComponent } from './app.component';
+
 import { LoginComponent, RegisterComponent } from './authentication/authentication.module';
 import { HomeComponent } from './components/home/home.component';
+import { AnonymousGuard } from './authentication/guards/anonymous.guard';
 
 const routes: Routes = [
     {
         path: '', component: HomeComponent
     },
     {
-        path: 'login', component: LoginComponent
+        path: 'login', component: LoginComponent, canActivate: [AnonymousGuard]
     },
     {
-        path: 'register', component: RegisterComponent
+        path: 'register', component: RegisterComponent, canActivate: [AnonymousGuard]
     },
     {
         path: '**', redirectTo: '/'
