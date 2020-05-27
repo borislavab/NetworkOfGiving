@@ -1,14 +1,25 @@
 image: "openjdk:11"
 
 before_script:
+  - apt-get update
+  - apt-get install postgresql-12
+  - export PGPASSWORD=NoG_password
+  - touch logFile
+  - pg_ctl start -l logfile
+  - createdb -h localhost -p 5432 -U NoG_user NoG_database
+  - cd ./server/network-of-giving
   - chmod +x mvnw
+
+after_script:
+ - service postgresql stop
 
 stages:
   - server-build
 
 build:
   stage: server-build
-  script: ./mvnw package
+  script: 
+    - ./mvnw package
   artifacts:
     paths:
       - target/network-of-giving-0.0.1-SNAPSHOT.jar
