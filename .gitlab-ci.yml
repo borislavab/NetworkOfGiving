@@ -8,12 +8,25 @@ variables:
   POSTGRES_HOST_AUTH_METHOD: trust
 
 stages:
-  - server-build
+  - build
 
-build:
+server-build:
   image: "maven:3.6.3-jdk-11"
-  stage: server-build
+  stage: build
   script: 
     - cd ./server/network-of-giving
     - chmod +x mvnw
     - ./mvnw clean install -Dspring.datasource.url='jdbc:postgresql://postgres:5432/NoG_database'
+
+client-build:
+  image: trion/ng-cli
+  stage: build
+  before_script:
+    - cd ./client/network-of-giving-client
+    - npm ci
+  script:
+    - ng build --prod
+  artifacts:
+    expire_in: 1 day
+    paths:
+    - dist/
