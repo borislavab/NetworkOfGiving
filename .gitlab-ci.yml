@@ -1,25 +1,19 @@
-image: "openjdk:11"
+services:
+  - postgres:12.2-alpine
 
-before_script:
-  - apt-get update
-  - apt-get install postgresql-12
-  - export PGPASSWORD=NoG_password
-  - touch logFile
-  - pg_ctl start -l logfile
-  - createdb -h localhost -p 5432 -U NoG_user NoG_database
-  - cd ./server/network-of-giving
-  - chmod +x mvnw
-
-after_script:
- - service postgresql stop
+variables:
+  POSTGRES_DB: NoG_database
+  POSTGRES_USER: NoG_user
+  POSTGRES_PASSWORD: NoG_password
+  POSTGRES_HOST_AUTH_METHOD: trust
 
 stages:
   - server-build
 
 build:
+  image: "maven:3.6.3-jdk-11"
   stage: server-build
   script: 
-    - ./mvnw package
-  artifacts:
-    paths:
-      - target/network-of-giving-0.0.1-SNAPSHOT.jar
+    - cd ./server/network-of-giving
+    - chmod +x mvnw
+    - ./mvnw clean install -Dspring.datasource.url='jdbc:postgresql://postgres:5432/NoG_database'
