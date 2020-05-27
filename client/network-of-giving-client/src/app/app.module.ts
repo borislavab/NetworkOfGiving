@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ClarityModule } from '@clr/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,7 +29,9 @@ import { customCurrencyMaskConfig } from './ngx-currency-configuration';
         CharityModule,
         NgxCurrencyModule.forRoot(customCurrencyMaskConfig)
     ],
-    providers: [],
+    providers: [
+        { provide: DEFAULT_CURRENCY_CODE, useValue: 'USD' }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
