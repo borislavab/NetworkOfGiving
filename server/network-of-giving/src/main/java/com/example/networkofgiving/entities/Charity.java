@@ -49,4 +49,68 @@ public class Charity implements Serializable {
 
     public Charity() {
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public BigDecimal getAmountRequired() {
+        return amountRequired;
+    }
+
+    public void setAmountRequired(BigDecimal amountRequired) {
+        this.amountRequired = amountRequired;
+    }
+
+    public BigDecimal getAmountCollected() {
+        return amountCollected;
+    }
+
+    public void setAmountCollected(BigDecimal amountCollected) {
+        this.amountCollected = amountCollected;
+    }
+
+    public Integer getVolunteersRequired() {
+        return volunteersRequired;
+    }
+
+    public void setVolunteersRequired(Integer volunteersRequired) {
+        this.volunteersRequired = volunteersRequired;
+    }
+
+    public Integer getVolunteersApplied() {
+        return volunteersApplied;
+    }
+
+    public void setVolunteersApplied(Integer volunteersApplied) {
+        this.volunteersApplied = volunteersApplied;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
 }

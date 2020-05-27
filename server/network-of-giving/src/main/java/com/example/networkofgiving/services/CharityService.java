@@ -31,6 +31,11 @@ public class CharityService implements ICharityService {
         return this.charityRepository.findAll();
     }
 
+    @Override
+    public Charity getCharityById(Long id) {
+        return this.charityRepository.findById(id).get();
+    }
+
     private Charity constructCharityFromCharityCreationDTO(CharityCreationDTO charityCreationDTO) {
         return new Charity(
                 charityCreationDTO.getTitle(),

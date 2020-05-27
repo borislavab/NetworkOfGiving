@@ -10,4 +10,6 @@ public interface ICharityService {
     void createCharity(CharityCreationDTO charityCreationDTO);
 
     List<Charity> getAllCharities();
+
+    Charity getCharityById(Long id);
 }
