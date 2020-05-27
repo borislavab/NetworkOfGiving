@@ -6,5 +6,5 @@ export interface Charity {
     amountCollected: number;
     volunteersRequired: number;
     volunteersApplied: number;
-    thumbnail: Uint8Array;
+    thumbnail: string;
 }

@@ -13,5 +13,9 @@ export class CharityCardComponent implements OnInit {
 
     constructor() { }
 
-    ngOnInit(): void { }
+    ngOnInit(): void {
+        if (!this.charity.thumbnail) {
+            this.charity.thumbnail = 'assets/missing-image.png';
+        }
+    }
 }

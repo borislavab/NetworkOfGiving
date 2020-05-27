@@ -1,31 +1,29 @@
-<div *ngIf="charity" class="clr-row">
-    <div class="clr-col-4">
-        <div class="card">
-            <div class="card-header">
-                {{charity.title}}
+<div *ngIf="charity" class="clr-col-4">
+    <div class="card">
+        <div class="card-header">
+            {{charity.title}}
+        </div>
+        <div class="card-block">
+            <div class="card-img">
+                <img [attr.src]="charity.thumbnail" alt="Charity thumbnail" class="card-media-image">
             </div>
-            <div class="card-block">
-                <div class="card-img">
-                    <img [attr.src]="charity.thumbnail" alt="Charity thumbnail" class="card-media-image">
+            <div class="card-text">
+                {{charity.description | slice : 0 : 90}}
+            </div>
+            <div class="card-text">
+                <div *ngIf="charity.amountRequired > 0">
+                    {{charity.amountCollected | currency }}/{{charity.amountRequired | currency }}
+                    funds collected
                 </div>
-                <div class="card-text">
-                    {{charity.description | slice : 0 : 90}}
-                </div>
-                <div class="card-text">
-                    <div *ngIf="charity.amountRequired > 0">
-                        {{charity.amountCollected | currency }}/{{charity.amountRequired | currency }}
-                        funds collected
-                    </div>
-                    <div *ngIf="charity.volunteersRequired > 0">
-                        {{charity.volunteersApplied}}/{{charity.volunteersRequired}} volunteers applied
-                    </div>
+                <div *ngIf="charity.volunteersRequired > 0">
+                    {{charity.volunteersApplied}}/{{charity.volunteersRequired}} volunteers applied
                 </div>
             </div>
-            <div class="card-footer">
-                <button class="btn btn-sm btn-link" [routerLink]="['/charities/', charity.id]">
-                    See more
-                </button>
-            </div>
+        </div>
+        <div class="card-footer">
+            <button class="btn btn-sm btn-link" [routerLink]="['/charities/', charity.id]">
+                See more
+            </button>
         </div>
     </div>
 </div>
