@@ -13,7 +13,7 @@ export class CreateCharityComponent implements OnInit {
 
     form: FormGroup;
     creationFailed = false;
-    thumbnailImageBuffer: Uint8Array = null;
+    thumbnail: string = null;
 
     constructor(private charityService: CharityService) { }
 
@@ -30,7 +30,7 @@ export class CreateCharityComponent implements OnInit {
     createCharity() {
         const charityParameters: CharityCreationModel = {
             ...this.form.value,
-            thumbnail: this.thumbnailImageBuffer
+            thumbnail: this.thumbnail
         };
         this.charityService.createCharity(charityParameters)
             .subscribe();
@@ -40,12 +40,11 @@ export class CreateCharityComponent implements OnInit {
         const file: File = files.item(0);
         const reader = new FileReader();
         reader.onload = this.handleFileLoad.bind(this);
-        reader.readAsArrayBuffer(file);
+        reader.readAsDataURL(file);
     }
 
     handleFileLoad(event) {
-        const arrayBuffer = event.target.result;
-        this.thumbnailImageBuffer = new Uint8Array(arrayBuffer);
+        this.thumbnail = event.target.result;
     }
 
 }

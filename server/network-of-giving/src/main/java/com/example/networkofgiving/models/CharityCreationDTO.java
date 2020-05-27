@@ -20,7 +20,7 @@ public class CharityCreationDTO {
     @PositiveOrZero
     private Integer volunteersRequired;
 
-    private Byte[] thumbnail;
+    private String thumbnail;
 
     public String getTitle() {
         return title;
@@ -54,11 +54,12 @@ public class CharityCreationDTO {
         this.volunteersRequired = volunteersRequired;
     }
 
-    public Byte[] getThumbnail() {
+    public String getThumbnail() {
         return thumbnail;
     }
 
-    public void setThumbnail(Byte[] thumbnail) {
+    public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
+
 }

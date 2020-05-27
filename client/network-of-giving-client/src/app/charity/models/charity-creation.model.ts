@@ -3,5 +3,5 @@ export interface CharityCreationModel {
     description: string;
     amountRequired: number;
     volunteersRequired: number;
-    thumbnail: Uint8Array;
+    thumbnail: string;
 }

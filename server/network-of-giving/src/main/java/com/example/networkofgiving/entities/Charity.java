@@ -30,19 +30,23 @@ public class Charity implements Serializable {
     @Column(nullable = false)
     private Integer volunteersApplied;
 
-    private Byte[] image;
+    @Lob
+    private String thumbnail;
 
     public Charity(String title,
                    String description,
                    BigDecimal amountRequired,
                    Integer volunteersRequired,
-                   Byte[] image) {
+                   String thumbnail) {
         this.title = title;
         this.description = description;
         this.amountRequired = amountRequired;
         this.amountCollected = new BigDecimal(0.0);
         this.volunteersRequired = volunteersRequired;
         this.volunteersApplied = 0;
-        this.image = image;
+        this.thumbnail = thumbnail;
+    }
+
+    public Charity() {
     }
 }
