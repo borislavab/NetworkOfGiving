@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class CharityService implements ICharityService {
@@ -23,6 +24,11 @@ public class CharityService implements ICharityService {
         }
         Charity newCharity = this.constructCharityFromCharityCreationDTO(charityCreationDTO);
         this.charityRepository.saveAndFlush(newCharity);
+    }
+
+    @Override
+    public List<Charity> getAllCharities() {
+        return this.charityRepository.findAll();
     }
 
     private Charity constructCharityFromCharityCreationDTO(CharityCreationDTO charityCreationDTO) {
