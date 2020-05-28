@@ -1,5 +1,5 @@
 <div *ngIf="charity" class="clr-col-4">
-    <div class="card">
+    <div class="card" (click)="navigateToCharityPage()">
         <div class="card-header">
             {{charity.title}}
         </div>

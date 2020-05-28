@@ -7,12 +7,14 @@ import { NgxCurrencyModule } from 'ngx-currency';
 import { CharityCardComponent } from './charity-card/charity-card.component';
 import { RouterModule } from '@angular/router';
 import { CharityListComponent } from './charity-list/charity-list.component';
+import { CharityComponent } from './charity/charity.component';
 
 @NgModule({
     declarations: [
         CreateCharityComponent,
         CharityCardComponent,
-        CharityListComponent
+        CharityListComponent,
+        CharityComponent
     ],
     imports: [
         CommonModule,

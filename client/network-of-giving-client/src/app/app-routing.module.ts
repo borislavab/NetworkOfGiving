@@ -6,6 +6,7 @@ import { AnonymousGuard } from './authentication/guards/anonymous.guard';
 import { AuthGuard } from './authentication/guards/auth.guard';
 import { CreateCharityComponent } from './charity/create-charity/create-charity.component';
 import { CharityListComponent } from './charity/charity-list/charity-list.component';
+import { CharityComponent } from './charity/charity/charity.component';
 
 const routes: Routes = [
     {
@@ -22,6 +23,9 @@ const routes: Routes = [
     },
     {
         path: 'charities', component: CharityListComponent
+    },
+    {
+        path: 'charities/:id', component: CharityComponent, canActivate: [AuthGuard]
     },
     {
         path: '**', redirectTo: '/'
