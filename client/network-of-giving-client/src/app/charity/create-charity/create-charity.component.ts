@@ -44,8 +44,8 @@ export class CreateCharityComponent implements OnInit {
                 Validators.maxLength(this.maxTitleLength)]),
             description: new FormControl(undefined, Validators.required),
             thumbnail: new FormControl(),
-            amountRequired: new FormControl(0.0, Validators.min(0.0)),
-            volunteersRequired: new FormControl(0, Validators.min(0))
+            amountRequired: new FormControl(0.0, [Validators.min(0.0), Validators.required]),
+            volunteersRequired: new FormControl(0, [Validators.min(0), Validators.required])
         }, {validators: requiresResourcesValidator('amountRequired', 'volunteersRequired')});
     }
 

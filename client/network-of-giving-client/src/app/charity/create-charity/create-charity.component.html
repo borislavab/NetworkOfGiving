@@ -28,16 +28,16 @@
         <label>Amount required</label>
         <input currencyMask clrInput placeholder="Amount required..." 
             formControlName="amountRequired" name="amountRequired" />
-        <clr-control-error *clrIfError="'min'">
-            Amount cannot be negative
+        <clr-control-error>
+            Specify non-negative amount.
         </clr-control-error>
     </clr-input-container>
     <clr-input-container>
         <label>Volunteers required</label>
         <input clrInput type="number" [min]="0" placeholder="Volunteers count..."
             formControlName="volunteersRequired" name="volunteersRequired" />
-        <clr-control-error *clrIfError="'min'">
-            Volunteers count cannot be negative
+        <clr-control-error>
+            Specify non-negative volunteer count. 
         </clr-control-error>
     </clr-input-container>
     <button class="btn btn-primary" type="submit" (click)="createCharity()" [disabled]="!form.valid">

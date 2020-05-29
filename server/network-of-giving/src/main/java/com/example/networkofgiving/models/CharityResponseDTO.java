@@ -21,7 +21,7 @@ public class CharityResponseDTO implements Serializable {
 
     private Integer volunteersApplied;
 
-    private Date created_at;
+    private Date createdAt;
 
     private Long ownerId;
 
@@ -35,7 +35,7 @@ public class CharityResponseDTO implements Serializable {
         this.amountRequired = charity.getAmountRequired();
         this.volunteersApplied = charity.getVolunteersApplied();
         this.volunteersRequired = charity.getVolunteersRequired();
-        this.created_at = charity.getCreated_at();
+        this.createdAt = charity.getCreatedAt();
         this.ownerId = charity.getOwnerId();
         this.thumbnail = charity.getThumbnail();
     }
@@ -76,7 +76,7 @@ public class CharityResponseDTO implements Serializable {
         return ownerId;
     }
 
-    public Date getCreated_at() {
-        return created_at;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 }

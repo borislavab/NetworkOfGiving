@@ -43,9 +43,9 @@ public class Charity implements Serializable {
     @Column(name = "owner_id", insertable = false, updatable = false)
     private Long ownerId;
 
-    @Column(updatable = false)
+    @Column(name = "created_at", updatable = false)
     @CreationTimestamp
-    private Date created_at;
+    private Date createdAt;
 
     public Charity(String title,
                    String description,
@@ -138,12 +138,12 @@ public class Charity implements Serializable {
         this.ownerId = ownerId;
     }
 
-    public Date getCreated_at() {
-        return created_at;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCreated_at(Date created_at) {
-        this.created_at = created_at;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
     public User getOwner() {

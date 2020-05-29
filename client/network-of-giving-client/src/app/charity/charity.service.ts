@@ -25,4 +25,8 @@ export class CharityService {
     getAllCharities(): Observable<Charity[]> {
         return this.http.get<Charity[]>(`${environment.apiUrl}/charities`);
     }
+
+    deleteCharity(id: number): Observable<any> {
+        return this.http.delete<any>(`${environment.apiUrl}/charities/${id}`);
+    }
 }

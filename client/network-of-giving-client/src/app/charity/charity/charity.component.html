@@ -1,26 +1,53 @@
-<div class="clr-row">
-    <div class="clr-col">
-        <h1>{{charity.title}}</h1>
-    </div>
-</div>
-<div class="clr-row">
-    <div class="card-img">
-        <img [attr.src]="charity.thumbnail" alt="Charity thumbnail" class="card-media-image">
-    </div>
-    <div>
-        <div *ngIf="charity.amountRequired > 0">
-            {{charity.amountCollected | currency }}/{{charity.amountRequired | currency }}
-            funds collected
+<clr-alert [clrAlertType]="'danger'" *ngIf="deletionFailed" (clrAlertClosedChange)="deletionFailed = false">
+    <clr-alert-item>
+        <span class="alert-text">
+            A problem occured during deletion.
+        </span>
+    </clr-alert-item>
+</clr-alert>
+<ng-container *ngIf="charity">
+    <div class="clr-row">
+        <div class="clr-col">
+            <h1>{{charity.title}}</h1>
         </div>
-        <div *ngIf="charity.volunteersRequired > 0">
-            {{charity.volunteersApplied}}/{{charity.volunteersRequired}} volunteers applied
+        <div class="clr-col-2" *ngIf="userIsOwner()">
+            <button class="btn btn-primary" (click)="onDeleteClicked()">Delete</button>
         </div>
     </div>
-</div>
-<div class="clr-row">
-    <div class="clr-col-10">
-        <p>
-            {{charity.description}}
-        </p>
+    <div class="clr-row">
+        <div class="card-img">
+            <img [attr.src]="charity.thumbnail" alt="Charity thumbnail" class="card-media-image">
+        </div>
+        <div>
+            <div *ngIf="charity.amountRequired > 0">
+                {{charity.amountCollected | currency }}/{{charity.amountRequired | currency }}
+                funds collected
+            </div>
+            <div *ngIf="charity.volunteersRequired > 0">
+                {{charity.volunteersApplied}}/{{charity.volunteersRequired}} volunteers applied
+            </div>
+        </div>
     </div>
-</div>
+    <div class="clr-row">
+        <div class="clr-col-10">
+            <p>
+                {{charity.description}}
+            </p>
+        </div>
+    </div>
+</ng-container>
+
+<clr-modal [(clrModalOpen)]="shouldDeleteDialogOpen" [clrModalStaticBackdrop]="false">
+    <h3 class="modal-title">Are you sure you want to delete this charity?</h3>
+    <div class="modal-body">
+        <p>All donations and participations will be reverted.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="shouldDeleteDialogOpen = false;">
+            Cancel
+        </button>
+        <button type="button" class="btn btn-primary" (click)="deleteCharity()">
+            Yes, delete charity.
+        </button>
+    </div>
+</clr-modal>

@@ -64,7 +64,7 @@ export class AuthenticationService {
             return null;
         }
         return {
-            id: tokenData.id,
+            id: Number(tokenData.sub),
             username: tokenData.username
         };
     }
