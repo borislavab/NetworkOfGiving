@@ -40,6 +40,9 @@ public class Charity implements Serializable {
     @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
+    @Column(name = "owner_id", insertable = false, updatable = false)
+    private Long ownerId;
+
     @Column(updatable = false)
     @CreationTimestamp
     private Date created_at;
@@ -125,5 +128,29 @@ public class Charity implements Serializable {
 
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Date getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(Date created_at) {
+        this.created_at = created_at;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

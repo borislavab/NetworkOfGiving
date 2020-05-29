@@ -1,7 +1,7 @@
 package com.example.networkofgiving.controllers;
 
-import com.example.networkofgiving.entities.Charity;
 import com.example.networkofgiving.models.CharityCreationDTO;
+import com.example.networkofgiving.models.CharityResponseDTO;
 import com.example.networkofgiving.services.ICharityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/charities")
@@ -27,13 +28,16 @@ public class CharitiesController {
     }
 
     @GetMapping
-    public List<Charity> getAllCharities() {
-        return this.charityService.getAllCharities();
+    public List<CharityResponseDTO> getAllCharities() {
+        return this.charityService.getAllCharities()
+                .stream()
+                .map(CharityResponseDTO::new)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("{id}")
-    public Charity getCharityById(@NotNull @PathVariable Long id) {
-        return this.charityService.getCharityById(id);
+    public CharityResponseDTO getCharityById(@NotNull @PathVariable Long id) {
+        return new CharityResponseDTO(this.charityService.getCharityById(id));
     }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
