@@ -5,6 +5,7 @@ import com.example.networkofgiving.models.CharityResponseDTO;
 import com.example.networkofgiving.services.ICharityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,16 +41,31 @@ public class CharitiesController {
         return new CharityResponseDTO(this.charityService.getCharityById(id));
     }
 
+    @DeleteMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteCharityById(@NotNull @PathVariable Long id) {
+        this.charityService.deleteCharityById(id);
+    }
+
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             MethodArgumentNotValidException.class,
             IllegalArgumentException.class
     })
-    public void badRequest() { }
+    public void badRequest() {
+    }
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
     @ExceptionHandler({
             NoSuchElementException.class
     })
-    public void notFound() {}
+    public void notFound() {
+    }
+
+    @ResponseStatus(code = HttpStatus.FORBIDDEN)
+    @ExceptionHandler({
+            AccessDeniedException.class
+    })
+    public void unauthorized() {
+    }
 }
