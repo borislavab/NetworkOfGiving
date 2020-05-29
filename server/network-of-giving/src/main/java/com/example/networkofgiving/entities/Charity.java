@@ -1,8 +1,11 @@
 package com.example.networkofgiving.entities;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Table(name = "charities")
@@ -33,11 +36,20 @@ public class Charity implements Serializable {
     @Lob
     private String thumbnail;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "owner_id", nullable = false)
+    private User owner;
+
+    @Column(updatable = false)
+    @CreationTimestamp
+    private Date created_at;
+
     public Charity(String title,
                    String description,
                    BigDecimal amountRequired,
                    Integer volunteersRequired,
-                   String thumbnail) {
+                   String thumbnail,
+                   User owner) {
         this.title = title;
         this.description = description;
         this.amountRequired = amountRequired;
@@ -45,6 +57,7 @@ public class Charity implements Serializable {
         this.volunteersRequired = volunteersRequired;
         this.volunteersApplied = 0;
         this.thumbnail = thumbnail;
+        this.owner = owner;
     }
 
     public Charity() {

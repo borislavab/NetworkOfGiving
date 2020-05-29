@@ -40,6 +40,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/users/login").anonymous()
                 .antMatchers(HttpMethod.POST, "/users/register").anonymous()
+                .antMatchers(HttpMethod.GET, "/charities").permitAll()
                 .anyRequest().authenticated();
 
         http.csrf().disable();

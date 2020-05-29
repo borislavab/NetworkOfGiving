@@ -4,6 +4,7 @@ import com.example.networkofgiving.models.Gender;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -29,6 +30,9 @@ public class User implements Serializable {
 
     @Column
     private String location;
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Charity> ownedCharities;
 
     public User() {
     }
@@ -98,5 +102,13 @@ public class User implements Serializable {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Set<Charity> getOwnedCharities() {
+        return ownedCharities;
+    }
+
+    public void setOwnedCharities(Set<Charity> ownedCharities) {
+        this.ownedCharities = ownedCharities;
     }
 }
