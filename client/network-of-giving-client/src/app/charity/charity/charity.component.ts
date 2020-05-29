@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CharityService } from '../charity.service';
-import { Charity } from '../models/charity.model';
 import { AuthenticationService } from 'src/app/authentication/authentication.module';
+import { CharityDetails } from '../models/charity-details.model';
 
 @Component({
     selector: 'app-charity',
@@ -12,7 +12,7 @@ import { AuthenticationService } from 'src/app/authentication/authentication.mod
 export class CharityComponent implements OnInit {
 
     id: number;
-    charity: Charity;
+    charity: CharityDetails;
     shouldDeleteDialogOpen = false;
     deletionFailed = false;
 
@@ -34,7 +34,7 @@ export class CharityComponent implements OnInit {
 
     ngOnInit(): void { }
 
-    initializeCharity(charity: Charity) {
+    initializeCharity(charity: CharityDetails) {
         this.charity = charity;
         if (!this.charity.thumbnail) {
             this.charity.thumbnail = 'assets/missing-image.png';
@@ -44,7 +44,7 @@ export class CharityComponent implements OnInit {
     onDeleteClicked(): void {
         this.openConfirmationDialog();
     }
-    
+
     openConfirmationDialog() {
         this.shouldDeleteDialogOpen = true;
     }

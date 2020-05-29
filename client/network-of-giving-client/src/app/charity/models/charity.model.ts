@@ -7,6 +7,5 @@ export interface Charity {
     volunteersRequired: number;
     volunteersApplied: number;
     thumbnail: string;
-    ownerId: number;
     createdAt: Date;
 }

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { CharityCreationModel } from './models/charity-creation.model';
 import { environment } from 'src/environments/environment';
 import { Charity } from './models/charity.model';
+import { CharityDetails } from './models/charity-details.model';
 
 @Injectable({
     providedIn: 'root'
@@ -18,8 +19,8 @@ export class CharityService {
         return this.http.post<any>(`${environment.apiUrl}/charities`, charityParameters);
     }
 
-    getCharityById(id: number): Observable<Charity> {
-        return this.http.get<Charity>(`${environment.apiUrl}/charities/${id}`);
+    getCharityById(id: number): Observable<CharityDetails> {
+        return this.http.get<CharityDetails>(`${environment.apiUrl}/charities/${id}`);
     }
 
     getAllCharities(): Observable<Charity[]> {

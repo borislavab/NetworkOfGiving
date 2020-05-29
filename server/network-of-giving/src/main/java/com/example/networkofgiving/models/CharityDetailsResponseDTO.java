@@ -8,10 +8,13 @@ public class CharityDetailsResponseDTO extends CharityBasicResponseDTO {
 
     private String ownerUsername;
 
+    private String ownerName;
+
     public CharityDetailsResponseDTO(Charity charity) {
         super(charity);
         this.ownerId = charity.getOwnerId();
         this.ownerUsername = charity.getOwner().getUsername();
+        this.ownerName = charity.getOwner().getName();
     }
 
     public Long getOwnerId() {
@@ -20,5 +23,9 @@ public class CharityDetailsResponseDTO extends CharityBasicResponseDTO {
 
     public String getOwnerUsername() {
         return ownerUsername;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
     }
 }

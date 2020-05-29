@@ -9,6 +9,7 @@
     <div class="clr-row">
         <div class="clr-col">
             <h1>{{charity.title}}</h1>
+            <p>Created by: {{charity.ownerUsername}} ({{charity.ownerName}})</p>
         </div>
         <div class="clr-col-2" *ngIf="userIsOwner()">
             <button class="btn btn-primary" (click)="onDeleteClicked()">Delete</button>
