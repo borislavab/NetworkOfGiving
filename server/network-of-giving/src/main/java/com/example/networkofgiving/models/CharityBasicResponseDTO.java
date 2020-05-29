@@ -2,11 +2,10 @@ package com.example.networkofgiving.models;
 
 import com.example.networkofgiving.entities.Charity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-public class CharityResponseDTO implements Serializable {
+public class CharityBasicResponseDTO {
     private Long id;
 
     private String title;
@@ -23,11 +22,9 @@ public class CharityResponseDTO implements Serializable {
 
     private Date createdAt;
 
-    private Long ownerId;
-
     private String thumbnail;
 
-    public CharityResponseDTO(Charity charity) {
+    public CharityBasicResponseDTO(Charity charity) {
         this.id = charity.getId();
         this.title = charity.getTitle();
         this.description = charity.getDescription();
@@ -36,7 +33,6 @@ public class CharityResponseDTO implements Serializable {
         this.volunteersApplied = charity.getVolunteersApplied();
         this.volunteersRequired = charity.getVolunteersRequired();
         this.createdAt = charity.getCreatedAt();
-        this.ownerId = charity.getOwnerId();
         this.thumbnail = charity.getThumbnail();
     }
 
@@ -70,10 +66,6 @@ public class CharityResponseDTO implements Serializable {
 
     public String getThumbnail() {
         return thumbnail;
-    }
-
-    public Long getOwnerId() {
-        return ownerId;
     }
 
     public Date getCreatedAt() {

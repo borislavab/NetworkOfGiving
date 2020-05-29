@@ -18,6 +18,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/users")
@@ -33,7 +34,7 @@ public class UsersController {
     private JwtUtil jwtUtil;
 
     @PostMapping("/login")
-    public JwtAuthenticationResponse login(@Valid @RequestBody LoginDTO loginDTO) {
+    public JwtAuthenticationResponse login(@Valid @NotNull @RequestBody LoginDTO loginDTO) {
         String username = loginDTO.getUsername();
         String password = loginDTO.getPassword();
         Authentication auth = this.authenticationManager.authenticate(
@@ -51,7 +52,7 @@ public class UsersController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void register(@Valid @RequestBody RegistrationDTO registrationDTO) {
+    public void register(@Valid @NotNull @RequestBody RegistrationDTO registrationDTO) {
         this.userService.register(registrationDTO);
     }
 
