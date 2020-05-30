@@ -4,6 +4,7 @@ import { CharityService } from '../services/charity.service';
 import { AuthenticationService } from 'src/app/authentication/authentication.module';
 import { CharityDetails } from '../models/charity-details.model';
 import { VolunteerService } from '../services/volunteer.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
     selector: 'app-charity',
@@ -14,7 +15,7 @@ export class CharityComponent implements OnInit {
 
     id: number;
     charity: CharityDetails;
-    userHasVolunteered = false;
+    userHasVolunteered = true;
     shouldDeleteDialogOpen = false;
     shouldVoluteerDialogOpen = false;
     actionFailed = false;
@@ -29,7 +30,7 @@ export class CharityComponent implements OnInit {
         if (isNaN(this.id)) {
             this.navigateToNotFound();
         }
-        this.loadCharity();
+        this.loadData();
     }
 
     ngOnInit(): void { }
@@ -42,10 +43,6 @@ export class CharityComponent implements OnInit {
     }
 
     onDeleteClicked(): void {
-        this.openConfirmationDialog();
-    }
-
-    openConfirmationDialog() {
         this.shouldDeleteDialogOpen = true;
     }
 
@@ -86,7 +83,7 @@ export class CharityComponent implements OnInit {
         this.shouldVoluteerDialogOpen = false;
         this.volunteerService.volunteerToCharity(this.charity.id)
             .subscribe(
-                () => this.loadCharity(),
+                () => this.loadData(),
                 () => this.showFailure('volunteer')
             );
     }
@@ -112,6 +109,11 @@ export class CharityComponent implements OnInit {
         return this.charity.amountRequired > 0;
     }
 
+    loadData(): void {
+        this.loadCharity();
+        this.loadUserVolunteering();
+    }
+
     loadCharity(): void {
         this.charityService.getCharityById(this.id)
             .subscribe(charity => {
@@ -119,6 +121,19 @@ export class CharityComponent implements OnInit {
             }, () => {
                 this.navigateToNotFound();
             });
+    }
+
+    loadUserVolunteering(): void {
+        this.volunteerService.getUserVolunteering(this.id)
+            .subscribe(
+                () => {
+                    this.userHasVolunteered = true;
+                },
+                (error: HttpErrorResponse) => {
+                    if (error.status === 404) {
+                        this.userHasVolunteered = false;
+                    }
+                });
     }
 
     showFailure(failedAction: string) {
