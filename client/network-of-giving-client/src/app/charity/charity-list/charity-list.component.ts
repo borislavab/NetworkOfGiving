@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CharityService } from '../charity.service';
+import { CharityService } from '../services/charity.service';
 import { Charity } from '../models/charity.model';
 
 @Component({

@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CharityService } from '../charity.service';
+import { CharityService } from '../services/charity.service';
 import { AuthenticationService } from 'src/app/authentication/authentication.module';
 import { CharityDetails } from '../models/charity-details.model';
+import { VolunteerService } from '../services/volunteer.service';
 
 @Component({
     selector: 'app-charity',
@@ -13,23 +14,22 @@ export class CharityComponent implements OnInit {
 
     id: number;
     charity: CharityDetails;
+    userHasVolunteered = false;
     shouldDeleteDialogOpen = false;
-    deletionFailed = false;
+    shouldVoluteerDialogOpen = false;
+    actionFailed = false;
+    failedAction: string;
 
     constructor(route: ActivatedRoute,
                 private router: Router,
                 private charityService: CharityService,
-                private authService: AuthenticationService) {
+                private authService: AuthenticationService,
+                private volunteerService: VolunteerService) {
         this.id = Number(route.snapshot.params.id);
         if (isNaN(this.id)) {
             this.navigateToNotFound();
         }
-        this.charityService.getCharityById(this.id)
-            .subscribe(charity => {
-                this.initializeCharity(charity);
-            }, () => {
-                this.navigateToNotFound();
-            });
+        this.loadCharity();
     }
 
     ngOnInit(): void { }
@@ -53,12 +53,17 @@ export class CharityComponent implements OnInit {
         this.charityService.deleteCharity(this.id)
             .subscribe(
                 () => this.navigateToHome(),
-                () => this.deletionFailed = true
+                () => this.showFailure('delete')
             );
     }
 
     userIsOwner(): boolean {
-        return this.authService.currentUser.id === this.charity.ownerId;
+        return this.authService.currentUser
+            && this.authService.currentUser.id === this.charity.ownerId;
+    }
+
+    userIsAuthenticated(): boolean {
+        return this.authService.isAuthenticated();
     }
 
     navigateToNotFound() {
@@ -67,5 +72,57 @@ export class CharityComponent implements OnInit {
 
     navigateToHome() {
         this.router.navigate(['/']);
+    }
+
+    donateClicked() {
+
+    }
+
+    volunteerClicked() {
+        this.shouldVoluteerDialogOpen = true;
+    }
+
+    volunteer() {
+        this.shouldVoluteerDialogOpen = false;
+        this.volunteerService.volunteerToCharity(this.charity.id)
+            .subscribe(
+                () => this.loadCharity(),
+                () => this.showFailure('volunteer')
+            );
+    }
+
+    isVolunteeringDisabled(): boolean {
+        return this.hasReachedVolunteersGoal()
+            || this.userHasVolunteered;
+    }
+
+    hasReachedDonationsGoal(): boolean {
+        return this.charity.amountCollected === this.charity.amountRequired;
+    }
+
+    hasReachedVolunteersGoal(): boolean {
+        return this.charity.volunteersApplied === this.charity.volunteersRequired;
+    }
+
+    requiresVolunteers(): boolean {
+        return this.charity.volunteersRequired > 0;
+    }
+
+    requiresDonations(): boolean {
+        return this.charity.amountRequired > 0;
+    }
+
+    loadCharity(): void {
+        this.charityService.getCharityById(this.id)
+            .subscribe(charity => {
+                this.initializeCharity(charity);
+            }, () => {
+                this.navigateToNotFound();
+            });
+    }
+
+    showFailure(failedAction: string) {
+        this.actionFailed = true;
+        this.failedAction = failedAction;
     }
 }

@@ -1,7 +1,7 @@
-<clr-alert [clrAlertType]="'danger'" *ngIf="deletionFailed" (clrAlertClosedChange)="deletionFailed = false">
+<clr-alert [clrAlertType]="'danger'" *ngIf="actionFailed" (clrAlertClosedChange)="actionFailed = false">
     <clr-alert-item>
         <span class="alert-text">
-            A problem occured during deletion.
+            A problem occured while trying to {{failedAction}}.
         </span>
     </clr-alert-item>
 </clr-alert>
@@ -27,6 +27,20 @@
             <div *ngIf="charity.volunteersRequired > 0">
                 {{charity.volunteersApplied}}/{{charity.volunteersRequired}} volunteers applied
             </div>
+            <div *ngIf="userIsAuthenticated()">
+                <button class="btn btn-primary" 
+                    *ngIf = "requiresDonations()"
+                    [disabled]="hasReachedDonationsGoal()"
+                    (click)="donateClicked()">
+                    Donate
+                </button>
+                <button class="btn btn-outline" 
+                    *ngIf = "requiresVolunteers()"
+                    [disabled]="isVolunteeringDisabled()"
+                    (click)="volunteerClicked()">
+                    Volunteer
+                </button>
+            </div>
         </div>
     </div>
     <div class="clr-row">
@@ -49,6 +63,21 @@
         </button>
         <button type="button" class="btn btn-primary" (click)="deleteCharity()">
             Yes, delete charity.
+        </button>
+    </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="shouldVoluteerDialogOpen" [clrModalStaticBackdrop]="false">
+    <h3 class="modal-title">Please confirm that you would like to volunteer.</h3>
+    <div class="modal-body">
+        <p>You cannot unvoluneer later.</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="shouldVoluteerDialogOpen = false;">
+            Cancel
+        </button>
+        <button type="button" class="btn btn-primary" (click)="volunteer()">
+            Yes, I volunteer.
         </button>
     </div>
 </clr-modal>

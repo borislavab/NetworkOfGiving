@@ -25,7 +25,7 @@ const routes: Routes = [
         path: 'charities', component: CharityListComponent
     },
     {
-        path: 'charities/:id', component: CharityComponent, canActivate: [AuthGuard]
+        path: 'charities/:id', component: CharityComponent
     },
     {
         path: '**', redirectTo: '/'
