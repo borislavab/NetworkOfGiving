@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Table(name = "charities")
@@ -46,6 +47,9 @@ public class Charity implements Serializable {
     @Column(name = "created_at", updatable = false)
     @CreationTimestamp
     private Date createdAt;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "charity")
+    Set<Volunteering> volunteerings;
 
     public Charity(String title,
                    String description,
@@ -152,5 +156,13 @@ public class Charity implements Serializable {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public Set<Volunteering> getVolunteerings() {
+        return volunteerings;
+    }
+
+    public void setVolunteerings(Set<Volunteering> volunteerings) {
+        this.volunteerings = volunteerings;
     }
 }

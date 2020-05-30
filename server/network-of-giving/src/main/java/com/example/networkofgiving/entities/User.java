@@ -34,6 +34,9 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Charity> ownedCharities;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    Set<Volunteering> volunteerings;
+
     public User() {
     }
 
@@ -110,5 +113,13 @@ public class User implements Serializable {
 
     public void setOwnedCharities(Set<Charity> ownedCharities) {
         this.ownedCharities = ownedCharities;
+    }
+
+    public Set<Volunteering> getVolunteerings() {
+        return volunteerings;
+    }
+
+    public void setVolunteerings(Set<Volunteering> volunteerings) {
+        this.volunteerings = volunteerings;
     }
 }
