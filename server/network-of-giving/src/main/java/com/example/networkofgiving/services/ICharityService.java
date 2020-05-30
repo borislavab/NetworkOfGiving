@@ -16,4 +16,6 @@ public interface ICharityService {
     Charity getCharityById(Long id) throws NoSuchElementException;
 
     void deleteCharityById(Long id) throws AccessDeniedException;
+
+    void updateCharity(Charity charity);
 }

@@ -4,11 +4,8 @@ import com.example.networkofgiving.entities.Charity;
 import com.example.networkofgiving.entities.User;
 import com.example.networkofgiving.models.CharityCreationDTO;
 import com.example.networkofgiving.repositories.ICharityRepository;
-import com.example.networkofgiving.security.AuthenticatedUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,6 +18,9 @@ public class CharityService implements ICharityService {
 
     @Autowired
     private ICharityRepository charityRepository;
+
+    @Autowired
+    private IUserService userService;
 
     @Override
     public void createCharity(CharityCreationDTO charityCreationDTO) throws IllegalArgumentException {
@@ -50,7 +50,7 @@ public class CharityService implements ICharityService {
             return;
         }
         Charity charity = charityToDelete.get();
-        Long userId = getAuthenticatedUser().getId();
+        Long userId = this.userService.getCurrentlyAuthenticatedUser().getId();
         if (userId.equals(charity.getOwnerId())) {
             this.charityRepository.deleteById(id);
         } else {
@@ -58,14 +58,15 @@ public class CharityService implements ICharityService {
         }
     }
 
-    private User getAuthenticatedUser() {
-        SecurityContext securityContext = SecurityContextHolder.getContext();
-        AuthenticatedUserInfo principal = (AuthenticatedUserInfo) securityContext.getAuthentication().getPrincipal();
-        return principal.getUser();
+    @Override
+    public void updateCharity(Charity charity) {
+        if (this.charityRepository.existsById(charity.getId())) {
+            this.charityRepository.save(charity);
+        }
     }
 
     private Charity constructCharityFromCharityCreationDTO(CharityCreationDTO charityCreationDTO) {
-        User owner = this.getAuthenticatedUser();
+        User owner = this.userService.getCurrentlyAuthenticatedUser();
         return new Charity(
                 charityCreationDTO.getTitle(),
                 charityCreationDTO.getDescription(),

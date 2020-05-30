@@ -9,4 +9,6 @@ public interface IUserService {
     User getUserById(Long id);
 
     void register(RegistrationDTO registrationDTO);
+
+    User getCurrentlyAuthenticatedUser();
 }
