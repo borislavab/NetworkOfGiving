@@ -33,12 +33,19 @@ public class VolunteeringService implements IVolunteeringService {
         }
         User currentUser = this.userService.getCurrentlyAuthenticatedUser();
         VolunteeringKey volunteeringKey = new VolunteeringKey(currentUser.getId(), charity.getId());
-        if(this.volunteeringRepository.existsById(volunteeringKey)) {
+        if (this.volunteeringRepository.existsById(volunteeringKey)) {
             throw new AccessDeniedException("A user cannot volunteer more than once.");
         }
         Volunteering newVolunteering = new Volunteering(currentUser, charity);
         this.volunteeringRepository.save(newVolunteering);
         charity.setVolunteersApplied(charity.getVolunteersApplied() + 1);
         this.charityService.updateCharity(charity);
+    }
+
+    @Override
+    public Volunteering getUserVolunteering(Long charityId) throws NoSuchElementException {
+        User currentUser = this.userService.getCurrentlyAuthenticatedUser();
+        VolunteeringKey volunteeringKey = new VolunteeringKey(currentUser.getId(), charityId);
+        return this.volunteeringRepository.findById(volunteeringKey).get();
     }
 }
