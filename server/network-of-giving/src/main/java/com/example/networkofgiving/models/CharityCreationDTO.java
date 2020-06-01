@@ -14,9 +14,11 @@ public class CharityCreationDTO {
     @NotNull
     private String description;
 
+    @NotNull
     @PositiveOrZero
     private BigDecimal amountRequired;
 
+    @NotNull
     @PositiveOrZero
     private Integer volunteersRequired;
 

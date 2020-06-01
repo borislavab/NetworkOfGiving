@@ -35,4 +35,11 @@ public class VolunteeringController {
     })
     public void notFound() {
     }
+
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({
+            IllegalArgumentException.class
+    })
+    public void badRequest() {
+    }
 }

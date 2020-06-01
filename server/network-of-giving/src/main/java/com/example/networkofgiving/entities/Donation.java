@@ -1,6 +1,7 @@
 package com.example.networkofgiving.entities;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.Instant;
 
 @Entity
@@ -9,15 +10,18 @@ public class Donation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "donator_id")
-    User donator;
+    private User donator;
 
     @ManyToOne
     @JoinColumn(name = "charity_id")
-    Charity charity;
+    private Charity charity;
+
+    @Column(nullable = false)
+    private BigDecimal donationAmount;
 
     @Column(updatable = false)
     private Instant timestamp;
@@ -25,9 +29,10 @@ public class Donation {
     public Donation() {
     }
 
-    public Donation(User donator, Charity charity) {
+    public Donation(User donator, Charity charity, BigDecimal donationAmount) {
         this.donator = donator;
         this.charity = charity;
+        this.donationAmount = donationAmount;
         this.timestamp = Instant.now();
     }
 
@@ -61,5 +66,13 @@ public class Donation {
 
     public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public BigDecimal getDonationAmount() {
+        return donationAmount;
+    }
+
+    public void setDonationAmount(BigDecimal donationAmount) {
+        this.donationAmount = donationAmount;
     }
 }

@@ -6,7 +6,6 @@ import com.example.networkofgiving.entities.Volunteering;
 import com.example.networkofgiving.entities.VolunteeringKey;
 import com.example.networkofgiving.repositories.IVolunteeringRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,15 +25,15 @@ public class VolunteeringService implements IVolunteeringService {
 
     @Transactional
     @Override
-    public void volunteerToCharity(Long charityId) throws NoSuchElementException, AccessDeniedException {
+    public void volunteerToCharity(Long charityId) throws NoSuchElementException, IllegalArgumentException {
         Charity charity = this.charityService.getCharityById(charityId);
         if (charity.getVolunteersApplied() >= charity.getVolunteersRequired()) {
-            throw new AccessDeniedException("Volunteer goal reached.");
+            throw new IllegalArgumentException("Volunteer goal reached.");
         }
         User currentUser = this.userService.getCurrentlyAuthenticatedUser();
         VolunteeringKey volunteeringKey = new VolunteeringKey(currentUser.getId(), charity.getId());
         if (this.volunteeringRepository.existsById(volunteeringKey)) {
-            throw new AccessDeniedException("A user cannot volunteer more than once.");
+            throw new IllegalArgumentException("A user cannot volunteer more than once.");
         }
         Volunteering newVolunteering = new Volunteering(currentUser, charity);
         this.volunteeringRepository.save(newVolunteering);
