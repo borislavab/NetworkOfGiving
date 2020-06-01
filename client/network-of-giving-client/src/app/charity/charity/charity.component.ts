@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CharityService } from '../services/charity.service';
 import { AuthenticationService } from 'src/app/authentication/authentication.module';
@@ -18,6 +18,7 @@ export class CharityComponent implements OnInit {
     userHasVolunteered = true;
     shouldDeleteDialogOpen = false;
     shouldVoluteerDialogOpen = false;
+    shouldDonateDialogOpen = false;
     actionFailed = false;
     failedAction: string;
 
@@ -72,7 +73,12 @@ export class CharityComponent implements OnInit {
     }
 
     donateClicked() {
+        this.shouldDonateDialogOpen = true;
+    }
 
+    handleDonationResult(event) {
+        console.log(event);
+        this.shouldDonateDialogOpen = false;
     }
 
     volunteerClicked() {

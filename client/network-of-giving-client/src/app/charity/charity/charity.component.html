@@ -81,3 +81,7 @@
         </button>
     </div>
 </clr-modal>
+
+<app-donate [charity]="charity" *ngIf="shouldDonateDialogOpen"
+    (donationProcessed)="handleDonationResult($event)">
+</app-donate>
