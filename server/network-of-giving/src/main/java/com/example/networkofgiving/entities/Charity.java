@@ -48,8 +48,11 @@ public class Charity implements Serializable {
     @CreationTimestamp
     private Date createdAt;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "charity")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "charity", cascade = CascadeType.REMOVE, orphanRemoval = true)
     Set<Volunteering> volunteerings;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "charity", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    Set<Donation> donations;
 
     public Charity(String title,
                    String description,
@@ -164,5 +167,13 @@ public class Charity implements Serializable {
 
     public void setVolunteerings(Set<Volunteering> volunteerings) {
         this.volunteerings = volunteerings;
+    }
+
+    public Set<Donation> getDonations() {
+        return donations;
+    }
+
+    public void setDonations(Set<Donation> donations) {
+        this.donations = donations;
     }
 }
