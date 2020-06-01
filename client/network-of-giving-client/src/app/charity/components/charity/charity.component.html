@@ -83,5 +83,7 @@
 </clr-modal>
 
 <app-donate [charity]="charity" *ngIf="shouldDonateDialogOpen"
-    (donationProcessed)="handleDonationResult($event)">
+    (donationSuccess)="handleDonationSuccess()"
+    (donationFailure)="handleDonationFailure()"
+    (donationCancelled)="handleDonationCancelled()">
 </app-donate>

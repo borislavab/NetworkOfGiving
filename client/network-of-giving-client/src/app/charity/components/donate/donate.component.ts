@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { Charity } from '../../models/charity.model';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
+import { DonateService } from '../../services/donate.service';
 
 @Component({
     selector: 'app-donate',
@@ -13,7 +14,13 @@ export class DonateComponent implements OnInit, AfterViewInit {
     charity: Charity;
 
     @Output()
-    donationProcessed: EventEmitter<boolean> = new EventEmitter();
+    donationSuccess: EventEmitter<any> = new EventEmitter();
+
+    @Output()
+    donationFailure: EventEmitter<any> = new EventEmitter();
+
+    @Output()
+    donationCancelled: EventEmitter<any> = new EventEmitter();
 
     shouldOpen = true;
 
@@ -21,7 +28,7 @@ export class DonateComponent implements OnInit, AfterViewInit {
 
     form: FormGroup;
 
-    constructor() { }
+    constructor(private donateService: DonateService) { }
 
     ngOnInit(): void {
         this.form = new FormGroup({
@@ -37,13 +44,15 @@ export class DonateComponent implements OnInit, AfterViewInit {
     }
 
     donate() {
-        console.log('Donate', this.form.value.donationAmount);
-        this.donationProcessed.emit(true);
+        const amount: number = Number(this.form.value.donationAmount);
+        this.donateService.donateToCharity(this.charity.id, amount).subscribe(
+            () => this.donationSuccess.emit(),
+            () => this.donationFailure.emit()
+        );
     }
 
     closeModal() {
-        console.log('Closing');
-        this.donationProcessed.emit(false);
+        this.donationCancelled.emit();
     }
 
     stopPropagation(event: Event) {

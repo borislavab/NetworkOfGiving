@@ -76,8 +76,17 @@ export class CharityComponent implements OnInit {
         this.shouldDonateDialogOpen = true;
     }
 
-    handleDonationResult(event) {
-        console.log(event);
+    handleDonationSuccess() {
+        this.shouldDonateDialogOpen = false;
+        this.loadCharity();
+    }
+
+    handleDonationFailure() {
+        this.shouldDonateDialogOpen = false;
+        this.showFailure('donate');
+    }
+
+    handleDonationCancelled() {
         this.shouldDonateDialogOpen = false;
     }
 
