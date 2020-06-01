@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { CharityCreationModel } from '../models/charity-creation.model';
@@ -22,8 +22,12 @@ export class CharityService {
         return this.http.get<CharityDetails>(`${environment.apiUrl}/charities/${id}`);
     }
 
-    getAllCharities(): Observable<Charity[]> {
-        return this.http.get<Charity[]>(`${environment.apiUrl}/charities`);
+    getAllCharities(searchTerm?: string): Observable<Charity[]> {
+        let params = new HttpParams();
+        if (searchTerm) {
+            params = params.set('titleFilter', searchTerm);
+        }
+        return this.http.get<Charity[]>(`${environment.apiUrl}/charities`, {params});
     }
 
     deleteCharity(id: number): Observable<any> {

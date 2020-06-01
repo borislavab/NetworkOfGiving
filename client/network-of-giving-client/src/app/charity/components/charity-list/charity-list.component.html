@@ -1,5 +1,22 @@
+<div class="clr-row clr-justify-content-between">
+    <div class="clr-col-4 clr-row clr-align-items-end">
+        <div class="clr-col-auto">
+            <clr-icon shape="search"></clr-icon>
+        </div>
+        <div clr-form [formGroup]="searchForm" class="clr-col">
+            <clr-input-container>
+                <input clrInput type="text" placeholder="Search by title..." formControlName="searchTerm" />
+            </clr-input-container>
+        </div>
+    </div>
+    <div *ngIf="userIsAuthenticated()" class="clr-col-auto">
+        <button class="btn btn-primary" routerLink="/charities/create">
+            Create charity
+        </button>
+    </div>
+</div>
+
 <div class="clr-row">
     <app-charity-card [charity]="charity" *ngFor="let charity of charityList">
     </app-charity-card>
 </div>
-
