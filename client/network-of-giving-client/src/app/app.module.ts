@@ -3,7 +3,7 @@ import { NgModule, DEFAULT_CURRENCY_CODE } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ClarityModule } from '@clr/angular';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxCurrencyModule } from "ngx-currency";
+import { NgxCurrencyModule } from 'ngx-currency';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';

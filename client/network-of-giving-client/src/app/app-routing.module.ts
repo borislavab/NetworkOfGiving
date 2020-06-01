@@ -4,9 +4,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent, RegisterComponent } from './authentication/authentication.module';
 import { AnonymousGuard } from './authentication/guards/anonymous.guard';
 import { AuthGuard } from './authentication/guards/auth.guard';
-import { CreateCharityComponent } from './charity/create-charity/create-charity.component';
-import { CharityListComponent } from './charity/charity-list/charity-list.component';
-import { CharityComponent } from './charity/charity/charity.component';
+import { CreateCharityComponent } from './charity/components/create-charity/create-charity.component';
+import { CharityListComponent } from './charity/components/charity-list/charity-list.component';
+import { CharityComponent } from './charity/components/charity/charity.component';
 
 const routes: Routes = [
     {

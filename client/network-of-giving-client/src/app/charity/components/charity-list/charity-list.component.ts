@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { CharityService } from '../services/charity.service';
-import { Charity } from '../models/charity.model';
+import { CharityService } from '../../services/charity.service';
+import { Charity } from '../../models/charity.model';
 
 @Component({
     selector: 'app-charity-list',

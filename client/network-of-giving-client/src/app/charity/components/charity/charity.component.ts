@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CharityService } from '../services/charity.service';
+import { CharityService } from '../../services/charity.service';
 import { AuthenticationService } from 'src/app/authentication/authentication.module';
-import { CharityDetails } from '../models/charity-details.model';
-import { VolunteerService } from '../services/volunteer.service';
+import { CharityDetails } from '../../models/charity-details.model';
+import { VolunteerService } from '../../services/volunteer.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({

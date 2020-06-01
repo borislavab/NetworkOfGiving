@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Charity } from '../models/charity.model';
+import { Charity } from '../../models/charity.model';
 
 @Component({
     selector: 'app-charity-card',

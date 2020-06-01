@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Charity } from '../models/charity.model';
+import { Charity } from '../../models/charity.model';
 import { FormControl, Validators, FormGroup } from '@angular/forms';
 
 @Component({
@@ -33,7 +33,7 @@ export class DonateComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        setTimeout(() => this.donationInput.nativeElement.focus());
+        this.donationInput.nativeElement.focus();
     }
 
     donate() {

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { CharityService } from '../services/charity.service';
-import { CharityCreationModel } from '../models/charity-creation.model';
+import { CharityService } from '../../services/charity.service';
+import { CharityCreationModel } from '../../models/charity-creation.model';
 
 function requiresResourcesValidator(...resources: string[]): ValidatorFn {
     return (form: FormGroup): ValidationErrors | null => {
