@@ -7,6 +7,7 @@ import com.example.networkofgiving.repositories.ICharityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -33,9 +34,11 @@ public class CharityService implements ICharityService {
         this.charityRepository.saveAndFlush(newCharity);
     }
 
+    @Transactional
     @Override
-    public List<Charity> getAllCharities() {
-        return this.charityRepository.findAll();
+    public List<Charity> getAllCharities(Optional<String> titleFilter) {
+        String filter = titleFilter.orElse("");
+        return this.charityRepository.findByTitleContaining(filter);
     }
 
     @Override

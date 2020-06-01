@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -30,8 +31,8 @@ public class CharitiesController {
     }
 
     @GetMapping
-        public List<CharityBasicResponseDTO> getAllCharities() {
-        return this.charityService.getAllCharities()
+    public List<CharityBasicResponseDTO> getAllCharities(@RequestParam Optional<String> titleFilter) {
+        return this.charityService.getAllCharities(titleFilter)
                 .stream()
                 .map(CharityBasicResponseDTO::new)
                 .collect(Collectors.toList());

@@ -6,12 +6,13 @@ import org.springframework.security.access.AccessDeniedException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public interface ICharityService {
 
     void createCharity(CharityCreationDTO charityCreationDTO) throws IllegalArgumentException;
 
-    List<Charity> getAllCharities();
+    List<Charity> getAllCharities(Optional<String> titleFilter);
 
     Charity getCharityById(Long id) throws NoSuchElementException;
 
