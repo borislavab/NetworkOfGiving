@@ -5,6 +5,7 @@ import com.example.networkofgiving.entities.Donation;
 import com.example.networkofgiving.entities.User;
 import com.example.networkofgiving.entities.Volunteering;
 import com.example.networkofgiving.models.CharityCreationDTO;
+import com.example.networkofgiving.models.EventType;
 import com.example.networkofgiving.repositories.ICharityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -23,6 +24,10 @@ public class CharityService implements ICharityService {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private IEventService eventService;
+
+    @Transactional
     @Override
     public void createCharity(CharityCreationDTO charityCreationDTO) throws IllegalArgumentException {
         BigDecimal amountRequired = charityCreationDTO.getAmountRequired();
@@ -31,7 +36,10 @@ public class CharityService implements ICharityService {
             throw new IllegalArgumentException();
         }
         Charity newCharity = this.constructCharityFromCharityCreationDTO(charityCreationDTO);
-        this.charityRepository.saveAndFlush(newCharity);
+        Charity savedCharity = this.charityRepository.save(newCharity);
+        User currentUser = this.userService.getCurrentlyAuthenticatedUser();
+        String eventDescription = String.format("Created charity '%s'", savedCharity.getTitle());
+        this.eventService.addEvent(currentUser, savedCharity, EventType.CREATED, eventDescription);
     }
 
     @Transactional
