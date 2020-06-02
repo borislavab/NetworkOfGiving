@@ -41,6 +41,7 @@ public class VolunteeringService implements IVolunteeringService {
         this.charityService.updateCharity(charity);
     }
 
+    @Transactional
     @Override
     public Volunteering getUserVolunteering(Long charityId) throws NoSuchElementException {
         User currentUser = this.userService.getCurrentlyAuthenticatedUser();

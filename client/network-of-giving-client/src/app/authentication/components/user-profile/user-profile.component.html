@@ -1,22 +1,61 @@
-<p>user-profile works!</p>
-{{userInformation.id}}
-{{userInformation.username}}
-{{userInformation.name}}
-{{userInformation.gender}}
-{{userInformation.location}}
-<div *ngFor="let charity of userInformation.ownedCharities">
-    {{charity.id}}
-    {{charity.title}}
-</div>
-<div *ngFor="let volunteering of userInformation.volunteerings">
-    {{volunteering.userId}}
-    {{volunteering.charityId}}
-    {{volunteering.timestamp}}
-</div>
-<div *ngFor="let donation of userInformation.donations">
-    {{donation.id}}
-    {{donation.donatorId}}
-    {{donation.charityId}}
-    {{donation.amount}}
-    {{donation.timestamp}}
-</div>
+<h1>My profile</h1>
+
+<clr-accordion [clrAccordionMultiPanel]="true" *ngIf="userInformation">
+    <clr-accordion-panel [clrAccordionPanelOpen]="true">
+        <clr-accordion-title>My information</clr-accordion-title>
+        <clr-accordion-content *clrIfExpanded>
+            <div>
+                Username: {{userInformation.username}}
+            </div>
+            <div>
+                Name: {{userInformation.name}}
+            </div>
+            <div *ngIf="userInformation.gender">
+                Gender: {{userInformation.gender }}
+            </div>
+            <div *ngIf="userInformation.location">
+                Location: {{userInformation.location}}
+            </div>
+        </clr-accordion-content>
+    </clr-accordion-panel>
+
+    <clr-accordion-panel>
+        <clr-accordion-title>My charities</clr-accordion-title>
+        <clr-accordion-content *clrIfExpanded>
+            <ol class="list">
+                <li *ngFor="let charity of userInformation.ownedCharities">
+                    <a routerLink="/charities/{{charity.id}}">
+                        {{charity.title}}
+                    </a>
+                </li>
+            </ol>      
+        </clr-accordion-content>
+    </clr-accordion-panel>
+
+    <clr-accordion-panel>
+        <clr-accordion-title>My volunteerings</clr-accordion-title>
+        <clr-accordion-content *clrIfExpanded>
+            <ol class="list">
+                <li *ngFor="let volunteering of userInformation.volunteerings">
+                    <a routerLink="/charities/{{volunteering.charityId}}">
+                        {{volunteering.charityTitle}}
+                    </a>
+                </li>
+            </ol> 
+        </clr-accordion-content>
+    </clr-accordion-panel>
+
+    <clr-accordion-panel>
+        <clr-accordion-title>My donations</clr-accordion-title>
+        <clr-accordion-content *clrIfExpanded>
+            <ol class="list">
+                <li *ngFor="let donation of userInformation.donations">
+                    Donated {{donation.amount | currency}} to charity: 
+                    <a routerLink="/charities/{{donation.charityId}}">
+                        {{donation.charityTitle}}
+                    </a>
+                </li>
+            </ol> 
+        </clr-accordion-content>
+    </clr-accordion-panel>
+</clr-accordion>

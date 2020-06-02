@@ -9,6 +9,7 @@ public class DonationDTO {
     private Long id;
     private Long donatorId;
     private Long charityId;
+    private String charityTitle;
     private BigDecimal amount;
     private Instant timestamp;
 
@@ -16,6 +17,7 @@ public class DonationDTO {
         this.id = donation.getId();
         this.donatorId = donation.getDonatorId();
         this.charityId = donation.getCharityId();
+        this.charityTitle = donation.getCharity().getTitle();
         this.amount = donation.getDonationAmount();
         this.timestamp = donation.getTimestamp();
     }
@@ -30,6 +32,10 @@ public class DonationDTO {
 
     public Long getCharityId() {
         return charityId;
+    }
+
+    public String getCharityTitle() {
+        return charityTitle;
     }
 
     public BigDecimal getAmount() {

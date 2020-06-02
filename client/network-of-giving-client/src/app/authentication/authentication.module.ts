@@ -8,6 +8,7 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { RouterModule } from '@angular/router';
 export { LoginComponent } from './components/login/login.component';
 export { RegisterComponent } from './components/register/register.component';
 export { AuthenticationService } from './services/authentication.service';
@@ -20,7 +21,8 @@ export { AuthenticationService } from './services/authentication.service';
         ClarityModule,
         FormsModule,
         ReactiveFormsModule,
-        HttpClientModule
+        HttpClientModule,
+        RouterModule
     ],
     exports: [],
     providers: [

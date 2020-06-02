@@ -18,7 +18,7 @@ public class Volunteering {
     @Column(name = "user_id", insertable = false, updatable = false)
     private Long userId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @MapsId("charity_id")
     @JoinColumn(name = "charity_id")
     private Charity charity;

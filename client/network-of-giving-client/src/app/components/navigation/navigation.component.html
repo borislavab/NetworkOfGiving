@@ -8,7 +8,12 @@
     <div class="header-nav navbar-right-container" [clr-nav-level]="1">
         <div *ngIf="currentUser">
             <clr-icon shape="user" class="user"></clr-icon>
-            <span class="user-greeting">Hello, {{currentUser.username}}</span>
+            <span class="user-greeting">
+                Hello, 
+                <a routerLink="/me">
+                    {{currentUser.username}}
+                </a>  
+            </span>
             <button class="btn btn-outline" (click)="onLogoutClicked()">Logout</button>
         </div>
         <div *ngIf="!currentUser">
