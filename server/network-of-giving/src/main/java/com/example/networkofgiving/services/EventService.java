@@ -6,6 +6,7 @@ import com.example.networkofgiving.entities.User;
 import com.example.networkofgiving.models.EventType;
 import com.example.networkofgiving.repositories.IEventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,7 +29,11 @@ public class EventService implements IEventService {
     @Override
     public List<Event> getEvents() {
         User currentUser = this.userService.getCurrentlyAuthenticatedUser();
-        return this.eventRepository.findAllByUserId(currentUser.getId());
+        return this.eventRepository.findAllByUserId(currentUser.getId(), sortByDateDesc());
+    }
+
+    private Sort sortByDateDesc() {
+        return Sort.by(new Sort.Order(Sort.Direction.DESC, "timestamp"));
     }
 
 }

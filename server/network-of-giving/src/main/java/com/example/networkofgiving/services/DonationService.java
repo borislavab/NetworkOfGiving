@@ -47,7 +47,7 @@ public class DonationService implements IDonationService {
         charity.setAmountCollected(newAmount);
         this.charityService.updateCharity(charity);
 
-        String eventDescription = String.format("Donated $%f to charity '%s'.", donationAmount, charity.getTitle());
+        String eventDescription = String.format("Donated $%.2f to charity '%s'.", donationAmount, charity.getTitle());
         this.eventService.addEvent(currentUser, charity, EventType.DONATED, eventDescription);
 
         if (newAmount.compareTo(charity.getAmountRequired()) == 0) {

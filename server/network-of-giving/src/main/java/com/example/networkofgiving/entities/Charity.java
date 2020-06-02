@@ -55,7 +55,7 @@ public class Charity implements Serializable {
     private Set<Donation> donations;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "charity")
-    private Set<Donation> events;
+    private Set<Event> events;
 
     public Charity(String title,
                    String description,
@@ -66,7 +66,7 @@ public class Charity implements Serializable {
         this.title = title;
         this.description = description;
         this.amountRequired = amountRequired;
-        this.amountCollected = new BigDecimal(0.0);
+        this.amountCollected = BigDecimal.ZERO;
         this.volunteersRequired = volunteersRequired;
         this.volunteersApplied = 0;
         this.thumbnail = thumbnail;
@@ -74,6 +74,13 @@ public class Charity implements Serializable {
     }
 
     public Charity() {
+    }
+
+    @PreRemove
+    public void onPreRemove() {
+        for (Event event : this.events) {
+            event.setCharity(null);
+        }
     }
 
     public Long getId() {
@@ -180,11 +187,11 @@ public class Charity implements Serializable {
         this.donations = donations;
     }
 
-    public Set<Donation> getEvents() {
+    public Set<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(Set<Donation> events) {
+    public void setEvents(Set<Event> events) {
         this.events = events;
     }
 }
