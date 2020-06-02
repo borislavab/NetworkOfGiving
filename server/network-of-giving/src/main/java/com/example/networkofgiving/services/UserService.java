@@ -2,6 +2,7 @@ package com.example.networkofgiving.services;
 
 import com.example.networkofgiving.entities.User;
 import com.example.networkofgiving.models.RegistrationDTO;
+import com.example.networkofgiving.models.UserInformationDTO;
 import com.example.networkofgiving.repositories.IUserRepository;
 import com.example.networkofgiving.security.AuthenticatedUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService implements IUserService {
@@ -41,6 +43,15 @@ public class UserService implements IUserService {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         AuthenticatedUserInfo principal = (AuthenticatedUserInfo) securityContext.getAuthentication().getPrincipal();
         return principal.getUser();
+    }
+
+    @Transactional
+    @Override
+    public UserInformationDTO getCurrentUserInformation() {
+        User currentUser = this.getCurrentlyAuthenticatedUser();
+        Long id = currentUser.getId();
+        User fullUserInformation = this.getUserById(id);
+        return new UserInformationDTO(fullUserInformation);
     }
 
     private User constructUserFromRegistrationDTO(RegistrationDTO registrationDTO) {

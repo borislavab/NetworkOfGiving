@@ -4,6 +4,7 @@ import com.example.networkofgiving.entities.User;
 import com.example.networkofgiving.models.JwtAuthenticationResponse;
 import com.example.networkofgiving.models.LoginDTO;
 import com.example.networkofgiving.models.RegistrationDTO;
+import com.example.networkofgiving.models.UserInformationDTO;
 import com.example.networkofgiving.security.AuthenticatedUserInfo;
 import com.example.networkofgiving.security.JwtUtil;
 import com.example.networkofgiving.services.IUserService;
@@ -56,14 +57,15 @@ public class UsersController {
         this.userService.register(registrationDTO);
     }
 
-    @GetMapping("/authenticated")
-    public String authenticated() {
-        return "Authenticated!";
+    @GetMapping("/me")
+    public UserInformationDTO getCurrentUserInformation() {
+        return this.userService.getCurrentUserInformation();
     }
 
     @ResponseStatus(code = HttpStatus.CONFLICT, reason = "Username already exists!")
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public void conflict() { }
+    public void conflict() {
+    }
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({

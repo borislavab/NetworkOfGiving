@@ -10,7 +10,7 @@ public class Volunteering {
     @EmbeddedId
     private VolunteeringKey id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
     private User user;
@@ -18,7 +18,7 @@ public class Volunteering {
     @Column(name = "user_id", insertable = false, updatable = false)
     private Long userId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @MapsId("charity_id")
     @JoinColumn(name = "charity_id")
     private Charity charity;
