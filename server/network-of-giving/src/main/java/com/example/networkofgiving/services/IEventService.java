@@ -9,7 +9,9 @@ import java.util.List;
 
 public interface IEventService {
 
-    void addEvent(User user, Charity charity, EventType eventType, String description);
+    void addUserEvent(User user, Charity charity, EventType eventType, String description);
 
-    List<Event> getEvents();
+    void addCharityEvent(Charity charity, EventType eventType, String description);
+
+    List<Event> getUserEvents();
 }

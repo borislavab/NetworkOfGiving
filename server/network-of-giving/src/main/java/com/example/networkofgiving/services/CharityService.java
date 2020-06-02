@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CharityService implements ICharityService {
@@ -39,7 +40,7 @@ public class CharityService implements ICharityService {
         Charity savedCharity = this.charityRepository.save(newCharity);
         User currentUser = this.userService.getCurrentlyAuthenticatedUser();
         String eventDescription = String.format("Created charity '%s'.", savedCharity.getTitle());
-        this.eventService.addEvent(currentUser, savedCharity, EventType.CREATED, eventDescription);
+        this.eventService.addUserEvent(currentUser, savedCharity, EventType.CREATED, eventDescription);
     }
 
     @Transactional
@@ -68,7 +69,7 @@ public class CharityService implements ICharityService {
         }
         this.charityRepository.deleteById(id);
         String eventDescription = String.format("Deleted charity '%s'.", charity.getTitle());
-        this.eventService.addEvent(currentUser, null, EventType.DELETED, eventDescription);
+        this.eventService.addUserEvent(currentUser, null, EventType.DELETED, eventDescription);
     }
 
     @Override
@@ -93,6 +94,25 @@ public class CharityService implements ICharityService {
         this.changeCharityAmountRequired(charity, charityCreationDTO.getAmountRequired());
         this.changeCharityVolunteersRequired(charity, charityCreationDTO.getVolunteersRequired());
         this.charityRepository.save(charity);
+    }
+
+    @Override
+    public Set<User> getCharityParticipants(Long id) {
+        Optional<Charity> foundCharity = this.charityRepository.findById(id);
+        if (foundCharity.isEmpty()) {
+            return new HashSet<>();
+        }
+        Charity charity = foundCharity.get();
+        Set<User> donators = charity.getDonations()
+                .stream()
+                .map(Donation::getDonator)
+                .collect(Collectors.toSet());
+        Set<User> volunteers = charity.getVolunteerings()
+                .stream()
+                .map(Volunteering::getUser)
+                .collect(Collectors.toSet());
+        donators.addAll(volunteers);
+        return donators;
     }
 
     private void changeCharityAmountRequired(Charity charity, BigDecimal newAmount) {

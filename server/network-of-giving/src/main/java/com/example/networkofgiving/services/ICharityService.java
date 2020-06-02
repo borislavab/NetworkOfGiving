@@ -1,12 +1,14 @@
 package com.example.networkofgiving.services;
 
 import com.example.networkofgiving.entities.Charity;
+import com.example.networkofgiving.entities.User;
 import com.example.networkofgiving.models.CharityCreationDTO;
 import org.springframework.security.access.AccessDeniedException;
 
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
 
 public interface ICharityService {
 
@@ -22,4 +24,6 @@ public interface ICharityService {
 
     void editCharity(Long id, CharityCreationDTO charityCreationDTO)
             throws NoSuchElementException, AccessDeniedException;
+
+    Set<User> getCharityParticipants(Long id);
 }

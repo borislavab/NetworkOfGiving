@@ -48,11 +48,11 @@ public class DonationService implements IDonationService {
         this.charityService.updateCharity(charity);
 
         String eventDescription = String.format("Donated $%.2f to charity '%s'.", donationAmount, charity.getTitle());
-        this.eventService.addEvent(currentUser, charity, EventType.DONATED, eventDescription);
+        this.eventService.addUserEvent(currentUser, charity, EventType.DONATED, eventDescription);
 
         if (newAmount.compareTo(charity.getAmountRequired()) == 0) {
             eventDescription = String.format("Charity '%s' collected all money required!", charity.getTitle());
-            this.eventService.addEvent(currentUser, charity, EventType.REACHED_AMOUNT_GOAL, eventDescription);
+            this.eventService.addCharityEvent(charity, EventType.REACHED_AMOUNT_GOAL, eventDescription);
         }
     }
 }

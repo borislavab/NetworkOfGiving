@@ -20,7 +20,7 @@ public class EventsController {
     @GetMapping
     public List<EventDTO> getEvents() {
 
-        return this.eventService.getEvents()
+        return this.eventService.getUserEvents()
                 .stream()
                 .map(EventDTO::new)
                 .collect(Collectors.toList());

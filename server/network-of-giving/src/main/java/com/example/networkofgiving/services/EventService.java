@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class EventService implements IEventService {
@@ -20,14 +21,25 @@ public class EventService implements IEventService {
     @Autowired
     private IUserService userService;
 
+    @Autowired
+    private ICharityService charityService;
+
     @Override
-    public void addEvent(User user, Charity charity, EventType eventType, String description) {
+    public void addUserEvent(User user, Charity charity, EventType eventType, String description) {
         Event event = new Event(user, charity, eventType, description);
         this.eventRepository.save(event);
     }
 
     @Override
-    public List<Event> getEvents() {
+    public void addCharityEvent(Charity charity, EventType eventType, String description) {
+        Set<User> charityParticipants = this.charityService.getCharityParticipants(charity.getId());
+        for (User participant : charityParticipants) {
+            this.addUserEvent(participant, charity, eventType, description);
+        }
+    }
+
+    @Override
+    public List<Event> getUserEvents() {
         User currentUser = this.userService.getCurrentlyAuthenticatedUser();
         return this.eventRepository.findAllByUserId(currentUser.getId(), sortByDateDesc());
     }

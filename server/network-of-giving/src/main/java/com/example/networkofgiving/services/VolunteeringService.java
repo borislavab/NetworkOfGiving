@@ -45,11 +45,11 @@ public class VolunteeringService implements IVolunteeringService {
         this.charityService.updateCharity(charity);
 
         String eventDescription = String.format("Volunteered to charity '%s'.", charity.getTitle());
-        this.eventService.addEvent(currentUser, charity, EventType.VOLUNTEERED, eventDescription);
+        this.eventService.addUserEvent(currentUser, charity, EventType.VOLUNTEERED, eventDescription);
 
         if (charity.getVolunteersApplied().equals(charity.getVolunteersRequired())) {
             eventDescription = String.format("Charity '%s' gathered all volunteers needed!", charity.getTitle());
-            this.eventService.addEvent(currentUser, charity, EventType.REACHED_VOLUNTEER_GOAL, eventDescription);
+            this.eventService.addCharityEvent(charity, EventType.REACHED_VOLUNTEER_GOAL, eventDescription);
         }
     }
 
