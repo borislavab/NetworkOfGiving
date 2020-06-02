@@ -1,4 +1,4 @@
-<form clrForm [formGroup]="form">
+<form clrForm [formGroup]="form" class="clr-col-lg-7">
     <clr-input-container>
         <label>Title</label>
         <input clrInput type="text" placeholder="Title..." 
@@ -11,6 +11,9 @@
             Title must be at most {{maxTitleLength}} characters
         </clr-control-error>
     </clr-input-container>
+    <div class="card-img">
+        <img [src]="thumbnailPreview" alt="Charity thumbnail" class="card-media-image">
+    </div>
     <clr-input-container>
         <label>Thumbnail</label>
         <input clrInput type="file" accept="image/*" (change)="onFileInput($event.target.files)"

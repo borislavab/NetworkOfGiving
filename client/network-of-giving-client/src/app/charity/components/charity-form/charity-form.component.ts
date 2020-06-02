@@ -35,6 +35,7 @@ export class CharityFormComponent implements OnInit {
 
     form: FormGroup;
     thumbnail: string = null;
+    thumbnailPreview = 'assets/missing-image.png';
 
     readonly minTitleLength = 5;
     readonly maxTitleLength = 50;
@@ -59,6 +60,9 @@ export class CharityFormComponent implements OnInit {
         }, {validators: requiresResourcesValidator('amountRequired', 'volunteersRequired')});
 
         this.thumbnail = this.defaultValues.thumbnail;
+        if (this.thumbnail) {
+            this.thumbnailPreview = this.thumbnail;
+        }
     }
 
     onFileInput(files: FileList) {
@@ -70,6 +74,7 @@ export class CharityFormComponent implements OnInit {
 
     handleFileLoad(event) {
         this.thumbnail = event.target.result;
+        this.thumbnailPreview = this.thumbnail;
     }
 
     sumbit() {
