@@ -1,8 +1,8 @@
 package com.example.networkofgiving.controllers;
 
-import com.example.networkofgiving.models.CharityBasicResponseDTO;
 import com.example.networkofgiving.models.CharityCreationDTO;
 import com.example.networkofgiving.models.CharityDetailsResponseDTO;
+import com.example.networkofgiving.models.CharityResponseDTO;
 import com.example.networkofgiving.services.ICharityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,10 +31,10 @@ public class CharitiesController {
     }
 
     @GetMapping
-    public List<CharityBasicResponseDTO> getAllCharities(@RequestParam Optional<String> titleFilter) {
+    public List<CharityResponseDTO> getAllCharities(@RequestParam Optional<String> titleFilter) {
         return this.charityService.getAllCharities(titleFilter)
                 .stream()
-                .map(CharityBasicResponseDTO::new)
+                .map(CharityResponseDTO::new)
                 .collect(Collectors.toList());
     }
 

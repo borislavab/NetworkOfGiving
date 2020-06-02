@@ -2,7 +2,7 @@ package com.example.networkofgiving.models;
 
 import com.example.networkofgiving.entities.Charity;
 
-public class CharityDetailsResponseDTO extends CharityBasicResponseDTO {
+public class CharityDetailsResponseDTO extends CharityResponseDTO {
 
     private Long ownerId;
 

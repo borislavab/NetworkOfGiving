@@ -16,9 +16,15 @@ public class Donation {
     @JoinColumn(name = "donator_id")
     private User donator;
 
+    @Column(name = "donator_id", insertable = false, updatable = false)
+    private Long donatorId;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "charity_id")
     private Charity charity;
+
+    @Column(name = "charity_id", insertable = false, updatable = false)
+    private Long charityId;
 
     @Column(nullable = false)
     private BigDecimal donationAmount;
@@ -74,5 +80,13 @@ public class Donation {
 
     public void setDonationAmount(BigDecimal donationAmount) {
         this.donationAmount = donationAmount;
+    }
+
+    public Long getDonatorId() {
+        return donatorId;
+    }
+
+    public Long getCharityId() {
+        return charityId;
     }
 }

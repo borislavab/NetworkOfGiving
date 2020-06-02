@@ -15,15 +15,22 @@ public class Volunteering {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private Long userId;
+
     @ManyToOne
     @MapsId("charity_id")
     @JoinColumn(name = "charity_id")
     private Charity charity;
 
+    @Column(name = "charity_id", insertable = false, updatable = false)
+    private Long charityId;
+
     @Column(updatable = false)
     private Instant timestamp;
 
-    public Volunteering() { }
+    public Volunteering() {
+    }
 
     public Volunteering(User user, Charity charity) {
         this.id = new VolunteeringKey(user.getId(), charity.getId());
@@ -62,5 +69,13 @@ public class Volunteering {
 
     public void setTimestamp(Instant timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public Long getCharityId() {
+        return charityId;
     }
 }

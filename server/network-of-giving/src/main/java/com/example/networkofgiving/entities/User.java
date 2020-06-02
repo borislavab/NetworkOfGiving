@@ -35,10 +35,10 @@ public class User implements Serializable {
     private Set<Charity> ownedCharities;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    Set<Volunteering> volunteerings;
+    private Set<Volunteering> volunteerings;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "donator")
-    Set<Donation> donations;
+    private Set<Donation> donations;
 
     public User() {
     }
