@@ -44,13 +44,17 @@ export class EditCharityComponent implements OnInit {
             description: charity.description,
             amountRequired: charity.amountRequired,
             volunteersRequired: charity.volunteersRequired,
-            thumbnail: undefined
+            thumbnail: charity.thumbnail
         };
     }
 
-    editCharity(charity: CharityCreationModel) {
-        console.log(charity);
-        console.log(this.charity.thumbnail);
+    editCharity(editedCharity: CharityCreationModel) {
+        this.charityService.editCharity(this.charity.id, editedCharity)
+            .subscribe(() => {
+                this.router.navigate(['/charities']);
+            }, () => {
+                this.editFailed = true;
+            });
     }
 
 }

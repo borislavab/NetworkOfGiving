@@ -33,4 +33,8 @@ export class CharityService {
     deleteCharity(id: number): Observable<any> {
         return this.http.delete<any>(`${environment.apiUrl}/charities/${id}`);
     }
+
+    editCharity(id: number, values: CharityCreationModel): Observable<any> {
+        return this.http.put<any>(`${environment.apiUrl}/charities/${id}`, values);
+    }
 }
