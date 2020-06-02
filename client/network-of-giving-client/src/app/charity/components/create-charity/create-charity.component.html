@@ -1,60 +1,15 @@
 <h1>Create a charity</h1>
 
-<form clrForm [formGroup]="form">
-    <clr-input-container>
-        <label>Title</label>
-        <input clrInput type="text" placeholder="Title..." 
-            formControlName="title" name="title" />
-        <clr-control-error *clrIfError="'required'">Enter title</clr-control-error>
-        <clr-control-error *clrIfError="'minlength'">
-            Title must be at least {{minTitleLength}} characters
-        </clr-control-error>
-        <clr-control-error *clrIfError="'maxlength'">
-            Title must be at most {{maxTitleLength}} characters
-        </clr-control-error>
-    </clr-input-container>
-    <clr-input-container>
-        <label>Thumbnail</label>
-        <input clrInput type="file" accept="image/*" (change)="onFileInput($event.target.files)"
-            placeholder="Thumbnail..." formControlName="thumbnail" name="thumbnail" />
-    </clr-input-container>
-    <clr-textarea-container>
-        <label>Description</label>
-        <textarea clrTextarea placeholder="Description..." 
-            formControlName="description" name="description"></textarea>
-        <clr-control-error *clrIfError="'required'">Enter description</clr-control-error>
-    </clr-textarea-container>
-    <clr-input-container>
-        <label>Amount required</label>
-        <input currencyMask clrInput placeholder="Amount required..." 
-            formControlName="amountRequired" name="amountRequired" />
-        <clr-control-error>
-            Specify non-negative amount.
-        </clr-control-error>
-    </clr-input-container>
-    <clr-input-container>
-        <label>Volunteers required</label>
-        <input clrInput type="number" [min]="0" placeholder="Volunteers count..."
-            formControlName="volunteersRequired" name="volunteersRequired" />
-        <clr-control-error>
-            Specify non-negative volunteer count. 
-        </clr-control-error>
-    </clr-input-container>
-    <button class="btn btn-primary" type="submit" (click)="createCharity()" [disabled]="!form.valid">
-        Create
-    </button>
-    <clr-alert [clrAlertType]="'danger'" *ngIf="noResourcesRequired()" [clrAlertClosable]="false">
-        <clr-alert-item>
-            <span class="alert-text">
-                You must require either funds or volunteers
-            </span>
-        </clr-alert-item>
-    </clr-alert>
-    <clr-alert [clrAlertType]="'danger'" *ngIf="creationFailed" [clrAlertClosable]="false">
-        <clr-alert-item>
-            <span class="alert-text">
-                Creation failed!
-            </span>
-        </clr-alert-item>
-    </clr-alert>
-</form>
+<app-charity-form 
+    [defaultValues]="defaultValues" submitActionName="Create"
+    (submittedCharity)="createCharity($event)"
+>
+</app-charity-form>
+
+<clr-alert [clrAlertType]="'danger'" *ngIf="creationFailed" [clrAlertClosable]="false">
+    <clr-alert-item>
+        <span class="alert-text">
+            Creation failed!
+        </span>
+    </clr-alert-item>
+</clr-alert>

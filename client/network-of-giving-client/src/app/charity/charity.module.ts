@@ -10,6 +10,7 @@ import { CharityListComponent } from './components/charity-list/charity-list.com
 import { CharityComponent } from './components/charity/charity.component';
 import { DonateComponent } from './components/donate/donate.component';
 import { EditCharityComponent } from './components/edit-charity/edit-charity.component';
+import { CharityFormComponent } from './components/charity-form/charity-form.component';
 
 @NgModule({
     declarations: [
@@ -18,7 +19,8 @@ import { EditCharityComponent } from './components/edit-charity/edit-charity.com
         CharityListComponent,
         CharityComponent,
         DonateComponent,
-        EditCharityComponent
+        EditCharityComponent,
+        CharityFormComponent
     ],
     imports: [
         CommonModule,

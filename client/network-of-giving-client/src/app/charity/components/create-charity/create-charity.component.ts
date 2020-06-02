@@ -5,21 +5,6 @@ import { Router } from '@angular/router';
 import { CharityService } from '../../services/charity.service';
 import { CharityCreationModel } from '../../models/charity-creation.model';
 
-function requiresResourcesValidator(...resources: string[]): ValidatorFn {
-    return (form: FormGroup): ValidationErrors | null => {
-        const formValues = form.value;
-        const noResourcesRequired = resources.every((resourceName) => {
-            return !formValues[resourceName] || formValues[resourceName] === 0;
-        });
-        if (noResourcesRequired) {
-            return {
-                resourcesRequired: true
-            };
-        }
-        return null;
-    };
-}
-
 @Component({
     selector: 'app-create-charity',
     templateUrl: './create-charity.component.html',
@@ -27,53 +12,25 @@ function requiresResourcesValidator(...resources: string[]): ValidatorFn {
 })
 export class CreateCharityComponent implements OnInit {
 
-    form: FormGroup;
     creationFailed = false;
-    thumbnail: string = null;
-
-    readonly minTitleLength = 5;
-    readonly maxTitleLength = 50;
+    defaultValues: CharityCreationModel = {
+        title: undefined,
+        description: undefined,
+        amountRequired: 0.0,
+        volunteersRequired: 0,
+        thumbnail: undefined
+    };
 
     constructor(private charityService: CharityService,
                 private router: Router) { }
 
-    ngOnInit(): void {
-        this.form = new FormGroup({
-            title: new FormControl(undefined, [Validators.required,
-                Validators.minLength(this.minTitleLength),
-                Validators.maxLength(this.maxTitleLength)]),
-            description: new FormControl(undefined, Validators.required),
-            thumbnail: new FormControl(),
-            amountRequired: new FormControl(0.0, [Validators.min(0.0), Validators.required]),
-            volunteersRequired: new FormControl(0, [Validators.min(0), Validators.required])
-        }, {validators: requiresResourcesValidator('amountRequired', 'volunteersRequired')});
-    }
+    ngOnInit(): void { }
 
-    createCharity() {
-        const charityParameters: CharityCreationModel = {
-            ...this.form.value,
-            thumbnail: this.thumbnail
-        };
-        this.charityService.createCharity(charityParameters)
+    createCharity(charity: CharityCreationModel) {
+        this.charityService.createCharity(charity)
             .subscribe(
-                () => this.router.navigate(['']),
+                () => this.router.navigate(['/charities']),
                 () => this.creationFailed = true
             );
-    }
-
-    onFileInput(files: FileList) {
-        const file: File = files.item(0);
-        const reader = new FileReader();
-        reader.onload = this.handleFileLoad.bind(this);
-        reader.readAsDataURL(file);
-    }
-
-    handleFileLoad(event) {
-        this.thumbnail = event.target.result;
-    }
-
-    noResourcesRequired(): boolean {
-        return this.form.errors?.resourcesRequired &&
-            this.form.controls.volunteersRequired.touched;
     }
 }
