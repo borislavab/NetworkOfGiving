@@ -12,12 +12,14 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import { HomeComponent } from './components/home/home.component';
 import { CharityModule } from './charity/charity.module';
 import { customCurrencyMaskConfig } from './ngx-currency-configuration';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavigationComponent,
-        HomeComponent
+        HomeComponent,
+        NotFoundComponent
     ],
     imports: [
         BrowserModule,

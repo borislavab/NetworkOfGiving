@@ -1,1 +1,16 @@
-<p>edit-charity works!</p>
+<h1>Create a charity</h1>
+
+<app-charity-form 
+    *ngIf="charityPrepopulatedValues"
+    [defaultValues]="charityPrepopulatedValues" submitActionName="Edit"
+    (submittedCharity)="editCharity($event)"
+>
+</app-charity-form>
+
+<clr-alert [clrAlertType]="'danger'" *ngIf="editFailed" [clrAlertClosable]="false">
+    <clr-alert-item>
+        <span class="alert-text">
+            Edit failed!
+        </span>
+    </clr-alert-item>
+</clr-alert>

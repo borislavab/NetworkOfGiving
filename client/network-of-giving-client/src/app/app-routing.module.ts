@@ -8,6 +8,7 @@ import { CreateCharityComponent } from './charity/components/create-charity/crea
 import { CharityListComponent } from './charity/components/charity-list/charity-list.component';
 import { CharityComponent } from './charity/components/charity/charity.component';
 import { EditCharityComponent } from './charity/components/edit-charity/edit-charity.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 const routes: Routes = [
     {
@@ -32,7 +33,10 @@ const routes: Routes = [
         path: 'charities/edit/:id', component: EditCharityComponent
     },
     {
-        path: '**', redirectTo: 'charities'
+        path: 'not-found', component: NotFoundComponent
+    },
+    {
+        path: '**', redirectTo: 'not-found'
     }
 ];
 
