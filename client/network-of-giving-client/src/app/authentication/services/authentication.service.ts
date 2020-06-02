@@ -8,6 +8,7 @@ import { TokenService } from './token.service';
 import { TokenResponse } from '../models/token-response.model';
 import { AuthenticatedUser } from '../models/authenticated-user.model';
 import { RegistrationData } from '../models/registration-data.model';
+import { UserInformation } from '../models/user-information.model';
 
 
 @Injectable({
@@ -40,6 +41,10 @@ export class AuthenticationService {
 
     register(registrationData: RegistrationData): Observable<any> {
         return this.http.post<any>(`${environment.apiUrl}/users/register`, registrationData);
+    }
+
+    getUserInformation(): Observable<UserInformation> {
+        return this.http.get<UserInformation>(`${environment.apiUrl}/users/me`);
     }
 
     isAuthenticated() {

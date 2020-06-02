@@ -9,6 +9,7 @@ import { CharityListComponent } from './charity/components/charity-list/charity-
 import { CharityComponent } from './charity/components/charity/charity.component';
 import { EditCharityComponent } from './charity/components/edit-charity/edit-charity.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UserProfileComponent } from './authentication/components/user-profile/user-profile.component';
 
 const routes: Routes = [
     {
@@ -30,7 +31,10 @@ const routes: Routes = [
         path: 'charities/:id', component: CharityComponent
     },
     {
-        path: 'charities/edit/:id', component: EditCharityComponent
+        path: 'charities/edit/:id', component: EditCharityComponent, canActivate: [AuthGuard]
+    },
+    {
+        path: 'me', component: UserProfileComponent, canActivate: [AuthGuard]
     },
     {
         path: 'not-found', component: NotFoundComponent

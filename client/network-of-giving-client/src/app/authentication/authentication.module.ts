@@ -7,13 +7,14 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 export { LoginComponent } from './components/login/login.component';
 export { RegisterComponent } from './components/register/register.component';
 export { AuthenticationService } from './services/authentication.service';
 
 
 @NgModule({
-    declarations: [LoginComponent, RegisterComponent],
+    declarations: [LoginComponent, RegisterComponent, UserProfileComponent],
     imports: [
         CommonModule,
         ClarityModule,

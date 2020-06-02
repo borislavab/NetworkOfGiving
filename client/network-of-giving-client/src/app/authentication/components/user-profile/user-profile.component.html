@@ -1,0 +1,22 @@
+<p>user-profile works!</p>
+{{userInformation.id}}
+{{userInformation.username}}
+{{userInformation.name}}
+{{userInformation.gender}}
+{{userInformation.location}}
+<div *ngFor="let charity of userInformation.ownedCharities">
+    {{charity.id}}
+    {{charity.title}}
+</div>
+<div *ngFor="let volunteering of userInformation.volunteerings">
+    {{volunteering.userId}}
+    {{volunteering.charityId}}
+    {{volunteering.timestamp}}
+</div>
+<div *ngFor="let donation of userInformation.donations">
+    {{donation.id}}
+    {{donation.donatorId}}
+    {{donation.charityId}}
+    {{donation.amount}}
+    {{donation.timestamp}}
+</div>

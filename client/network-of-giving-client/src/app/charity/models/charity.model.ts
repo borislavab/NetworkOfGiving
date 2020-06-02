@@ -1,6 +1,6 @@
-export interface Charity {
-    id: number;
-    title: string;
+import { BasicCharity } from './basic-charity.model';
+
+export interface Charity extends BasicCharity {
     description: string;
     amountRequired: number;
     amountCollected: number;

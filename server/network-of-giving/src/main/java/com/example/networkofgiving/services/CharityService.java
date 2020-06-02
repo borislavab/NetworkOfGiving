@@ -70,8 +70,13 @@ public class CharityService implements ICharityService {
 
     @Transactional
     @Override
-    public void editCharity(Long id, CharityCreationDTO charityCreationDTO) throws NoSuchElementException {
+    public void editCharity(Long id, CharityCreationDTO charityCreationDTO)
+            throws NoSuchElementException, AccessDeniedException {
         Charity charity = this.charityRepository.findById(id).get();
+        Long userId = this.userService.getCurrentlyAuthenticatedUser().getId();
+        if (!userId.equals(charity.getOwnerId())) {
+            throw new AccessDeniedException("Only an owner can edit a charity");
+        }
         charity.setTitle(charityCreationDTO.getTitle());
         charity.setDescription(charityCreationDTO.getDescription());
         charity.setThumbnail(charityCreationDTO.getThumbnail());
