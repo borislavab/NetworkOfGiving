@@ -1,7 +1,9 @@
 package com.example.networkofgiving.services;
 
 import com.example.networkofgiving.entities.Charity;
+import com.example.networkofgiving.entities.Donation;
 import com.example.networkofgiving.entities.User;
+import com.example.networkofgiving.entities.Volunteering;
 import com.example.networkofgiving.models.CharityCreationDTO;
 import com.example.networkofgiving.repositories.ICharityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class CharityService implements ICharityService {
@@ -66,6 +66,56 @@ public class CharityService implements ICharityService {
         if (this.charityRepository.existsById(charity.getId())) {
             this.charityRepository.save(charity);
         }
+    }
+
+    @Transactional
+    @Override
+    public void editCharity(Long id, CharityCreationDTO charityCreationDTO) throws NoSuchElementException {
+        Charity charity = this.charityRepository.findById(id).get();
+        charity.setTitle(charityCreationDTO.getTitle());
+        charity.setDescription(charityCreationDTO.getDescription());
+        charity.setThumbnail(charityCreationDTO.getThumbnail());
+        this.changeCharityAmountRequired(charity, charityCreationDTO.getAmountRequired());
+        this.changeCharityVolunteersRequired(charity, charityCreationDTO.getVolunteersRequired());
+        this.charityRepository.save(charity);
+    }
+
+    private void changeCharityAmountRequired(Charity charity, BigDecimal newAmount) {
+        charity.setAmountRequired(newAmount);
+        BigDecimal collectedAmount = charity.getAmountCollected();
+        if (newAmount.compareTo(collectedAmount) >= 0) {
+            return;
+        }
+        BigDecimal amountToDecrease = collectedAmount.subtract(newAmount);
+        Set<Donation> donations = charity.getDonations();
+        ArrayList<Donation> donationsList = new ArrayList<>(donations);
+        donationsList.sort(Comparator.comparing(Donation::getTimestamp));
+        ListIterator<Donation> donationIterator = donationsList.listIterator(donationsList.size());
+        while (donationIterator.hasPrevious() && amountToDecrease.compareTo(BigDecimal.ZERO) > 0) {
+            Donation toRemove = donationIterator.previous();
+            amountToDecrease = amountToDecrease.subtract(toRemove.getDonationAmount());
+            donations.remove(toRemove);
+        }
+        BigDecimal currentDonationAmount = newAmount.add(amountToDecrease);
+        charity.setAmountCollected(currentDonationAmount);
+    }
+
+    private void changeCharityVolunteersRequired(Charity charity, Integer newVolunteerCount) {
+        charity.setVolunteersRequired(newVolunteerCount);
+        Integer currentVolunteerCount = charity.getVolunteersApplied();
+        if (currentVolunteerCount <= newVolunteerCount) {
+            return;
+        }
+        Integer volunteersToRemove = currentVolunteerCount - newVolunteerCount;
+        Set<Volunteering> volunteerings = charity.getVolunteerings();
+        ArrayList<Volunteering> volunteeringList = new ArrayList<>(volunteerings);
+        volunteeringList.sort(Comparator.comparing(Volunteering::getTimestamp));
+        int lastIndex = volunteeringList.size() - 1;
+        for (int i = 0; i < volunteersToRemove; i++) {
+            Volunteering volunteeringToRemove = volunteeringList.get(lastIndex - i);
+            volunteerings.remove(volunteeringToRemove);
+        }
+        charity.setVolunteersApplied(newVolunteerCount);
     }
 
     private Charity constructCharityFromCharityCreationDTO(CharityCreationDTO charityCreationDTO) {

@@ -49,6 +49,13 @@ public class CharitiesController {
         this.charityService.deleteCharityById(id);
     }
 
+    @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void editCharity(@NotNull @PathVariable Long id,
+                            @Valid @RequestBody CharityCreationDTO charityCreationDTO) {
+        this.charityService.editCharity(id, charityCreationDTO);
+    }
+
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
     @ExceptionHandler({
             MethodArgumentNotValidException.class,

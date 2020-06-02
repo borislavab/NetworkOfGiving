@@ -19,4 +19,6 @@ public interface ICharityService {
     void deleteCharityById(Long id) throws AccessDeniedException;
 
     void updateCharity(Charity charity);
+
+    void editCharity(Long id, CharityCreationDTO charityCreationDTO) throws NoSuchElementException;
 }
