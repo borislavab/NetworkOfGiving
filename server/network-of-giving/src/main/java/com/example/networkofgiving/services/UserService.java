@@ -1,5 +1,6 @@
 package com.example.networkofgiving.services;
 
+import com.example.networkofgiving.entities.Donation;
 import com.example.networkofgiving.entities.User;
 import com.example.networkofgiving.models.RegistrationDTO;
 import com.example.networkofgiving.models.UserInformationDTO;
@@ -11,6 +12,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
 
 @Service
 public class UserService implements IUserService {
@@ -52,6 +55,14 @@ public class UserService implements IUserService {
         Long id = currentUser.getId();
         User fullUserInformation = this.getUserById(id);
         return new UserInformationDTO(fullUserInformation);
+    }
+
+    @Override
+    public Set<Donation> getUserDonations() {
+        User currentUser = this.getCurrentlyAuthenticatedUser();
+        Long id = currentUser.getId();
+        User fullUserInformation = this.getUserById(id);
+        return fullUserInformation.getDonations();
     }
 
     private User constructUserFromRegistrationDTO(RegistrationDTO registrationDTO) {

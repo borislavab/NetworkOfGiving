@@ -8,4 +8,6 @@ public interface IDonationService {
 
     void donateToCharity(Long charityId, DonationAmountDTO donationAmountDTO)
             throws NoSuchElementException, IllegalArgumentException;
+
+    DonationAmountDTO getDonationPrediction(Long charityId);
 }

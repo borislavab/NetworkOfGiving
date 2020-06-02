@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.NoSuchElementException;
+import java.util.Set;
 
 @Service
 public class DonationService implements IDonationService {
@@ -54,5 +55,20 @@ public class DonationService implements IDonationService {
             eventDescription = String.format("Charity '%s' collected all money required!", charity.getTitle());
             this.eventService.addCharityEvent(charity, EventType.REACHED_AMOUNT_GOAL, eventDescription);
         }
+    }
+
+    @Override
+    public DonationAmountDTO getDonationPrediction(Long charityId) {
+        Set<Donation> donations = this.userService.getUserDonations();
+        Charity charity = this.charityService.getCharityById(charityId);
+        double average = donations.stream()
+                .map(Donation::getDonationAmount)
+                .mapToDouble(BigDecimal::doubleValue)
+                .average()
+                .orElse(0.01);
+        BigDecimal averageAmount = new BigDecimal(average);
+        BigDecimal amountToCollect = charity.getAmountRequired().subtract(charity.getAmountCollected());
+        BigDecimal prediction = averageAmount.min(amountToCollect);
+        return new DonationAmountDTO(prediction);
     }
 }

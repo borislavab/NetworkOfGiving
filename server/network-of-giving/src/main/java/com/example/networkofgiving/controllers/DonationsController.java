@@ -18,9 +18,14 @@ public class DonationsController {
     IDonationService donationService;
 
     @PostMapping("{charityId}")
-    void donateToCharity(@NotNull @PathVariable Long charityId,
+    public void donateToCharity(@NotNull @PathVariable Long charityId,
                          @NotNull @Valid @RequestBody DonationAmountDTO donationAmountDTO) {
         this.donationService.donateToCharity(charityId, donationAmountDTO);
+    }
+
+    @GetMapping("{charityId}/prediction")
+    public DonationAmountDTO getDonationPrediction(@NotNull @PathVariable Long charityId) {
+        return this.donationService.getDonationPrediction(charityId);
     }
 
     @ResponseStatus(code = HttpStatus.NOT_FOUND)
