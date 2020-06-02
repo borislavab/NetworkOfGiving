@@ -15,4 +15,10 @@ export class DonateService {
         const body: DonationAmount = {amount};
         return this.http.post<any>(`${environment.apiUrl}/charities/donate/${id}`, body);
     }
+
+    getDonateAmountPrediction(charityId: number): Observable<DonationAmount> {
+        return this.http.get<DonationAmount>(
+            `${environment.apiUrl}/charities/donate/${charityId}/prediction`
+        );
+    }
 }

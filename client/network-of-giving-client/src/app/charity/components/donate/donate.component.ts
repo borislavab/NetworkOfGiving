@@ -28,11 +28,21 @@ export class DonateComponent implements OnInit, AfterViewInit {
 
     form: FormGroup;
 
-    constructor(private donateService: DonateService) { }
+    constructor(private donateService: DonateService) {
+    }
 
     ngOnInit(): void {
+        this.donateService.getDonateAmountPrediction(this.charity.id)
+            .subscribe(prediction => {
+                this.initializeFormGroup(prediction.amount);
+            }, () => {
+                this.initializeFormGroup(0.01);
+            });
+    }
+
+    initializeFormGroup(amount: number) {
         this.form = new FormGroup({
-            donationAmount: new FormControl(0.01, [
+            donationAmount: new FormControl(amount, [
                 Validators.required,
                 Validators.min(0.01),
                 Validators.max(this.charity.amountRequired - this.charity.amountCollected)])
@@ -40,7 +50,7 @@ export class DonateComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.donationInput.nativeElement.focus();
+        setTimeout(() => this.donationInput.nativeElement.focus(), 500);
     }
 
     donate() {

@@ -3,7 +3,7 @@
     (clrModalOpenChange)="closeModal()">
     <h3 class="modal-title">Enter the amount you would like to donate.</h3>
     <div class="modal-body">
-        <div clr-form [formGroup]="form">
+        <div clr-form [formGroup]="form" *ngIf="form">
             <clr-input-container>
                 <label>Donate amount</label>
                 <input clrInput currencyMask #donationInput placeholder="Enter amount..."
@@ -24,7 +24,7 @@
         <button type="button" class="btn btn-outline" (click)="closeModal()">
             Cancel
         </button>
-        <button class="btn btn-primary" type="submit" [disabled]="!form.valid" (click)="donate()">
+        <button class="btn btn-primary" type="submit" [disabled]="!form || !form.valid" (click)="donate()">
             Donate
         </button>
     </div>
