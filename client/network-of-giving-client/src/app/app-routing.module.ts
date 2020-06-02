@@ -7,6 +7,7 @@ import { AuthGuard } from './authentication/guards/auth.guard';
 import { CreateCharityComponent } from './charity/components/create-charity/create-charity.component';
 import { CharityListComponent } from './charity/components/charity-list/charity-list.component';
 import { CharityComponent } from './charity/components/charity/charity.component';
+import { EditCharityComponent } from './charity/components/edit-charity/edit-charity.component';
 
 const routes: Routes = [
     {
@@ -28,7 +29,10 @@ const routes: Routes = [
         path: 'charities/:id', component: CharityComponent
     },
     {
-        path: '**', redirectTo: '/'
+        path: 'charities/edit/:id', component: EditCharityComponent
+    },
+    {
+        path: '**', redirectTo: 'charities'
     }
 ];
 

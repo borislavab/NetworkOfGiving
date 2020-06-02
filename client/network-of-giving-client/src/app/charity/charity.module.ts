@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { CharityListComponent } from './components/charity-list/charity-list.component';
 import { CharityComponent } from './components/charity/charity.component';
 import { DonateComponent } from './components/donate/donate.component';
+import { EditCharityComponent } from './components/edit-charity/edit-charity.component';
 
 @NgModule({
     declarations: [
@@ -16,7 +17,8 @@ import { DonateComponent } from './components/donate/donate.component';
         CharityCardComponent,
         CharityListComponent,
         CharityComponent,
-        DonateComponent
+        DonateComponent,
+        EditCharityComponent
     ],
     imports: [
         CommonModule,

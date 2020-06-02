@@ -11,8 +11,13 @@
             <h1>{{charity.title}}</h1>
             <p>Created by: {{charity.ownerUsername}} ({{charity.ownerName}})</p>
         </div>
-        <div class="clr-col-2" *ngIf="userIsOwner()">
-            <button class="btn btn-primary" (click)="onDeleteClicked()">Delete</button>
+        <div class="clr-col-auto clr-row" *ngIf="userIsOwner()">
+            <div class="clr-col-auto">
+                <button class="btn btn-outline" routerLink="/charities/edit/{{charity.id}}">Edit</button>
+            </div>
+            <div class="clr-col-auto">
+                <button class="btn btn-primary" (click)="onDeleteClicked()">Delete</button>
+            </div>
         </div>
     </div>
     <div class="clr-row">
