@@ -4,7 +4,21 @@
     <clr-tab>
         <button clrTabLink>Timeline</button>
         <clr-tab-content *clrIfActive="true">
-            Here goes my timeline
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th class="left">Time of occurence</th>
+                        <th>Event</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let event of events"
+                        routerLink="/charities/{{event.charityId ? event.charityId : ''}}">
+                        <td class="left">{{event.timestamp | date: 'medium'}}</td>
+                        <td>{{event.description}}</td>
+                    </tr>
+                </tbody>
+            </table>
         </clr-tab-content>
     </clr-tab>
     <clr-tab>
