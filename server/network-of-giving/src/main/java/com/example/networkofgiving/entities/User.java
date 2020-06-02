@@ -40,6 +40,9 @@ public class User implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "donator")
     private Set<Donation> donations;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+    private Set<Event> events;
+
     public User() {
     }
 
@@ -132,5 +135,13 @@ public class User implements Serializable {
 
     public void setDonations(Set<Donation> donations) {
         this.donations = donations;
+    }
+
+    public Set<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(Set<Event> events) {
+        this.events = events;
     }
 }
