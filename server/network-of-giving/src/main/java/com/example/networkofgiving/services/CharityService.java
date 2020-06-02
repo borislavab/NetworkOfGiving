@@ -38,7 +38,7 @@ public class CharityService implements ICharityService {
         Charity newCharity = this.constructCharityFromCharityCreationDTO(charityCreationDTO);
         Charity savedCharity = this.charityRepository.save(newCharity);
         User currentUser = this.userService.getCurrentlyAuthenticatedUser();
-        String eventDescription = String.format("Created charity '%s'", savedCharity.getTitle());
+        String eventDescription = String.format("Created charity '%s'.", savedCharity.getTitle());
         this.eventService.addEvent(currentUser, savedCharity, EventType.CREATED, eventDescription);
     }
 
@@ -61,12 +61,14 @@ public class CharityService implements ICharityService {
             return;
         }
         Charity charity = charityToDelete.get();
-        Long userId = this.userService.getCurrentlyAuthenticatedUser().getId();
-        if (userId.equals(charity.getOwnerId())) {
-            this.charityRepository.deleteById(id);
-        } else {
+        User currentUser = this.userService.getCurrentlyAuthenticatedUser();
+        Long userId = currentUser.getId();
+        if (!userId.equals(charity.getOwnerId())) {
             throw new AccessDeniedException("Only an owner can delete a charity");
         }
+        this.charityRepository.deleteById(id);
+        String eventDescription = String.format("Deleted charity '%s'.", charity.getTitle());
+        this.eventService.addEvent(currentUser, null, EventType.DELETED, eventDescription);
     }
 
     @Override
