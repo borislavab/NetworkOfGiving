@@ -118,6 +118,7 @@ public class CharityService implements ICharityService {
                 .map(Volunteering::getUser)
                 .collect(Collectors.toSet());
         donators.addAll(volunteers);
+        donators.add(charity.getOwner());
         return donators;
     }
 
