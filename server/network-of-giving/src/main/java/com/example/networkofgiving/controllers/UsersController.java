@@ -34,6 +34,15 @@ public class UsersController {
     @Autowired
     private JwtUtil jwtUtil;
 
+    /**
+     * Authenticate a user and return JWT for authenticating further requests
+     *
+     * @param loginDTO Contains the username and password of the user
+     * @return
+     * 200 OK status code on success along with token data
+     * 400 BAD_REQUEST status code if the request body is invalid
+     * 403 FORBIDDEN status code if credentials are invalid
+     */
     @PostMapping("/login")
     public JwtAuthenticationResponse login(@Valid @NotNull @RequestBody LoginDTO loginDTO) {
         String username = loginDTO.getUsername();
@@ -44,19 +53,35 @@ public class UsersController {
                         password
                 )
         );
-        AuthenticatedUserInfo principal = (AuthenticatedUserInfo)auth.getPrincipal();
+        AuthenticatedUserInfo principal = (AuthenticatedUserInfo) auth.getPrincipal();
         User userPrincipal = principal.getUser();
         JwtAuthenticationResponse tokenAuthenticationResponse =
                 jwtUtil.createTokenAuthenticationResponse(userPrincipal);
         return tokenAuthenticationResponse;
     }
 
+    /**
+     * Register a user
+     *
+     * @param registrationDTO Contains the information for the new user
+     *
+     * @return
+     * 201 CREATED status code on success
+     * 400 BAD_REQUEST status code if the request body is invalid
+     */
     @PostMapping("/register")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.CREATED)
     public void register(@Valid @NotNull @RequestBody RegistrationDTO registrationDTO) {
         this.userService.register(registrationDTO);
     }
 
+    /**
+     * Get detailed information about the requesting user
+     *
+     * @return
+     * 200 OK status code on success along with user information
+     * 403 FORBIDDEN status code if user is not authenticated
+     */
     @GetMapping("/me")
     public UserInformationDTO getCurrentUserInformation() {
         return this.userService.getCurrentUserInformation();

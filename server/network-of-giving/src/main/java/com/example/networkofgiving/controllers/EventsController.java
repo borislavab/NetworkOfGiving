@@ -17,6 +17,16 @@ public class EventsController {
     @Autowired
     private IEventService eventService;
 
+    /**
+     * Get the events associated with the requesting user
+     *
+     * @return
+     * 200 OK status code on success along with a list of events
+     * 403 FORBIDDEN status code if user is not authenticated
+     * 404 NOT_FOUND status code on invalid charity id.
+     * 400 BAD_REQUEST status code if the donated amount is greater than
+     * the amount the charity remains to collect.
+     */
     @GetMapping
     public List<EventDTO> getEvents() {
 
