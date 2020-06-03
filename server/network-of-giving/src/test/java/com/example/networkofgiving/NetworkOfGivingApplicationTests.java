@@ -3,6 +3,7 @@ package com.example.networkofgiving;
 import com.example.networkofgiving.entities.User;
 import com.example.networkofgiving.models.CharityCreationDTO;
 import com.example.networkofgiving.models.CharityResponseDTO;
+import com.example.networkofgiving.models.DonationAmountDTO;
 import com.example.networkofgiving.security.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -14,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -95,4 +97,65 @@ class NetworkOfGivingApplicationTests {
 		assertEquals(dto.getVolunteersRequired(), charityResponseDTO.getVolunteersRequired());
 	}
 
+	@Test
+	void donateToCharity_WithAuthentication_MakesDonation() throws Exception {
+		String jwt = this.jwtUtil.createTokenAuthenticationResponse(this.user).getAccessToken();
+		CharityCreationDTO dto = new CharityCreationDTO();
+		dto.setTitle("dto donation title");
+		dto.setDescription("dto description");
+		dto.setVolunteersRequired(5);
+		dto.setAmountRequired(new BigDecimal(10.0));
+		mvc.perform(post("/charities")
+				.content(objectMapper.writeValueAsString(dto))
+				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer " + jwt))
+				.andExpect(status().isCreated());
+		MvcResult mvcResult = mvc.perform(get("/charities").param("titleFilter", dto.getTitle()))
+				.andExpect(status().isOk()).andReturn();
+		String stringContent = mvcResult.getResponse().getContentAsString();
+		List content = objectMapper.readValue(stringContent, List.class);
+		List<CharityResponseDTO> result = (List<CharityResponseDTO>) content;
+		CharityResponseDTO charityResponseDTO = objectMapper.convertValue(result.get(0), CharityResponseDTO.class);
+		Long charityId = charityResponseDTO.getId();
+		DonationAmountDTO amountDTO = new DonationAmountDTO(new BigDecimal(5.00));
+		mvc.perform(post("/charities/donate/" + charityId)
+				.content(objectMapper.writeValueAsString(amountDTO))
+				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer " + jwt))
+				.andExpect(status().isCreated());
+		mvc.perform(MockMvcRequestBuilders
+				.delete("/charities/{id}", charityId)
+				.header("Authorization", "Bearer " + jwt))
+				.andExpect(status().isNoContent());
+	}
+
+	@Test
+	void volunteerToCharity_WithAuthentication_SavesVolunteering() throws Exception {
+		String jwt = this.jwtUtil.createTokenAuthenticationResponse(this.user).getAccessToken();
+		CharityCreationDTO dto = new CharityCreationDTO();
+		dto.setTitle("dto donation title");
+		dto.setDescription("dto description");
+		dto.setVolunteersRequired(5);
+		dto.setAmountRequired(new BigDecimal(10.0));
+		mvc.perform(post("/charities")
+				.content(objectMapper.writeValueAsString(dto))
+				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer " + jwt))
+				.andExpect(status().isCreated());
+		MvcResult mvcResult = mvc.perform(get("/charities").param("titleFilter", dto.getTitle()))
+				.andExpect(status().isOk()).andReturn();
+		String stringContent = mvcResult.getResponse().getContentAsString();
+		List content = objectMapper.readValue(stringContent, List.class);
+		List<CharityResponseDTO> result = (List<CharityResponseDTO>) content;
+		CharityResponseDTO charityResponseDTO = objectMapper.convertValue(result.get(0), CharityResponseDTO.class);
+		Long charityId = charityResponseDTO.getId();
+		mvc.perform(post("/charities/volunteer/" + charityId)
+				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer " + jwt))
+				.andExpect(status().isCreated());
+		mvc.perform(MockMvcRequestBuilders
+				.delete("/charities/{id}", charityId)
+				.header("Authorization", "Bearer " + jwt))
+				.andExpect(status().isNoContent());
+	}
 }

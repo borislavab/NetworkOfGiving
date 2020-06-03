@@ -15,6 +15,9 @@ public class DonationAmountDTO implements Serializable {
         this.amount = amount;
     }
 
+    public DonationAmountDTO() {
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }

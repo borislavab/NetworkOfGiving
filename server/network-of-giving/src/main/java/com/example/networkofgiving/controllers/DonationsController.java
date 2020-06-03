@@ -18,6 +18,7 @@ public class DonationsController {
     IDonationService donationService;
 
     @PostMapping("{charityId}")
+    @ResponseStatus(code = HttpStatus.CREATED)
     public void donateToCharity(@NotNull @PathVariable Long charityId,
                          @NotNull @Valid @RequestBody DonationAmountDTO donationAmountDTO) {
         this.donationService.donateToCharity(charityId, donationAmountDTO);
