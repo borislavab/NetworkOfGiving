@@ -7,9 +7,8 @@ import com.example.networkofgiving.entities.Volunteering;
 import com.example.networkofgiving.models.CharityCreationDTO;
 import com.example.networkofgiving.models.EventType;
 import com.example.networkofgiving.repositories.ICharityRepository;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -19,10 +18,8 @@ import org.springframework.security.access.AccessDeniedException;
 import java.math.BigDecimal;
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
-
 
 public class CharityServiceTest {
 
@@ -44,7 +41,7 @@ public class CharityServiceTest {
 
     Charity charity;
 
-    @Before
+    @BeforeEach
     public void initMocks() {
         MockitoAnnotations.initMocks(this);
         this.id = 1L;
@@ -61,13 +58,14 @@ public class CharityServiceTest {
         this.charity.setOwnerId(this.user.getId());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void createCharity_NoResourcesRequired_ThrowsException() {
         CharityCreationDTO charityCreationDTO = new CharityCreationDTO();
         charityCreationDTO.setAmountRequired(new BigDecimal(0.0));
         charityCreationDTO.setVolunteersRequired(0);
 
-        this.charityService.createCharity(charityCreationDTO);
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                this.charityService.createCharity(charityCreationDTO));
 
         verifyNoInteractions(this.charityRepository);
         verifyNoInteractions(this.eventService);
@@ -118,15 +116,16 @@ public class CharityServiceTest {
 
         Charity result = this.charityService.getCharityById(id);
 
-        Assert.assertEquals(charity, result);
+        assertEquals(charity, result);
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void getCharityById_NonExistingCharity_ThrowsException() {
         Optional<Charity> expected = Optional.empty();
         Mockito.when(this.charityRepository.findById(id)).thenReturn(expected);
 
-        Charity result = this.charityService.getCharityById(id);
+        Exception exception = assertThrows(NoSuchElementException.class, () ->
+                this.charityService.getCharityById(id));
     }
 
     @Test
@@ -142,14 +141,15 @@ public class CharityServiceTest {
         verify(this.eventService).addUserEvent(this.user, null, EventType.DELETED, eventDescription);
     }
 
-    @Test(expected = AccessDeniedException.class)
+    @Test
     public void deleteCharityById_ExistingCharityAndUserNotOwner_ThrowsException() {
         this.charity.setOwnerId(5L);
         Optional<Charity> charityResult = Optional.of(this.charity);
         Mockito.when(this.charityRepository.findById(id)).thenReturn(charityResult);
         Mockito.when(this.userService.getCurrentlyAuthenticatedUser()).thenReturn(this.user);
 
-        this.charityService.deleteCharityById(id);
+        Exception exception = assertThrows(AccessDeniedException.class, () ->
+                this.charityService.deleteCharityById(id));
     }
 
     @Test
@@ -234,13 +234,14 @@ public class CharityServiceTest {
         assertTrue(result.contains(anotherUser));
     }
 
-    @Test(expected = AccessDeniedException.class)
+    @Test
     public void editCharity_UserNotOwner_ThrowsException() {
         this.charity.setOwnerId(10L);
         Optional<Charity> expected = Optional.of(this.charity);
         Mockito.when(this.charityRepository.findById(id)).thenReturn(expected);
         when(this.userService.getCurrentlyAuthenticatedUser()).thenReturn(this.user);
 
-        this.charityService.editCharity(this.id, null);
+        Exception exception = assertThrows(AccessDeniedException.class, () ->
+                this.charityService.editCharity(this.id, null));
     }
 }
