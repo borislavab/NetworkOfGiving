@@ -12,7 +12,7 @@
                     Must be less than the remaining amount of {{ err.max }}
                 </clr-control-error>
                 <clr-control-error *clrIfError="'min'; error as err">
-                    Must be at least {{ err.max }}
+                    Must be at least {{ err.min }}
                 </clr-control-error>
                 <clr-control-error *clrIfError="'required'">
                     Specify amount

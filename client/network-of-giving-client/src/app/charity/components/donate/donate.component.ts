@@ -50,7 +50,7 @@ export class DonateComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        setTimeout(() => this.donationInput.nativeElement.focus(), 500);
+        setTimeout(() => this.donationInput.nativeElement.focus(), 1000);
     }
 
     donate() {
