@@ -60,4 +60,9 @@ public class VolunteeringService implements IVolunteeringService {
         VolunteeringKey volunteeringKey = new VolunteeringKey(currentUser.getId(), charityId);
         return this.volunteeringRepository.findById(volunteeringKey).get();
     }
+
+    @Override
+    public void unvolunteer(VolunteeringKey volunteeringId) {
+        this.volunteeringRepository.deleteById(volunteeringId);
+    }
 }

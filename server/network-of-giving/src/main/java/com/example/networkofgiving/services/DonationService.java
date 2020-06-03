@@ -72,4 +72,9 @@ public class DonationService implements IDonationService {
         BigDecimal prediction = averageAmount.min(amountToCollect);
         return new DonationAmountDTO(prediction);
     }
+
+    @Override
+    public void refundDonation(Long donationId) {
+        this.donationRepository.deleteById(donationId);
+    }
 }

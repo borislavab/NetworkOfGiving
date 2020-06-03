@@ -28,4 +28,10 @@ public interface IDonationService {
      * @throws NoSuchElementException on invalid charity id.
      */
     DonationAmountDTO getDonationPrediction(Long charityId) throws NoSuchElementException;
+
+    /**
+     * Deletes the donation
+     * @param donationId the donation id.
+     */
+    void refundDonation(Long donationId);
 }

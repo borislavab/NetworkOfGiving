@@ -1,6 +1,7 @@
 package com.example.networkofgiving.services;
 
 import com.example.networkofgiving.entities.Volunteering;
+import com.example.networkofgiving.entities.VolunteeringKey;
 
 import java.util.NoSuchElementException;
 
@@ -22,4 +23,10 @@ public interface IVolunteeringService {
      * @throws NoSuchElementException if the user is not a volunteer in a charity with such id
      */
     Volunteering getUserVolunteering(Long charityId) throws NoSuchElementException;
+
+    /**
+     * Deletes the volunteering.
+     * @param volunteeringId the volunteering id
+     */
+    void unvolunteer(VolunteeringKey volunteeringId);
 }

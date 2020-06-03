@@ -28,6 +28,12 @@ public class CharityService implements ICharityService {
     @Autowired
     private IEventService eventService;
 
+    @Autowired
+    private IVolunteeringService volunteeringService;
+
+    @Autowired
+    private IDonationService donationService;
+
     @Transactional
     @Override
     public void createCharity(CharityCreationDTO charityCreationDTO) throws IllegalArgumentException {
@@ -130,6 +136,7 @@ public class CharityService implements ICharityService {
             Donation toRemove = donationIterator.previous();
             amountToDecrease = amountToDecrease.subtract(toRemove.getDonationAmount());
             donations.remove(toRemove);
+            this.donationService.refundDonation(toRemove.getId());
         }
         BigDecimal currentDonationAmount = newAmount.add(amountToDecrease);
         charity.setAmountCollected(currentDonationAmount);
@@ -149,6 +156,7 @@ public class CharityService implements ICharityService {
         for (int i = 0; i < volunteersToRemove; i++) {
             Volunteering volunteeringToRemove = volunteeringList.get(lastIndex - i);
             volunteerings.remove(volunteeringToRemove);
+            this.volunteeringService.unvolunteer(volunteeringToRemove.getId());
         }
         charity.setVolunteersApplied(newVolunteerCount);
     }
