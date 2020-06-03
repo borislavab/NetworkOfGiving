@@ -58,7 +58,8 @@ public class DonationService implements IDonationService {
     }
 
     @Override
-    public DonationAmountDTO getDonationPrediction(Long charityId) {
+    public DonationAmountDTO getDonationPrediction(Long charityId) throws
+            NoSuchElementException {
         Set<Donation> donations = this.userService.getUserDonations();
         Charity charity = this.charityService.getCharityById(charityId);
         double average = donations.stream()
