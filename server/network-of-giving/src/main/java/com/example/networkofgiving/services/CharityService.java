@@ -153,7 +153,7 @@ public class CharityService implements ICharityService {
         charity.setVolunteersApplied(newVolunteerCount);
     }
 
-    private Charity constructCharityFromCharityCreationDTO(CharityCreationDTO charityCreationDTO) {
+    Charity constructCharityFromCharityCreationDTO(CharityCreationDTO charityCreationDTO) {
         User owner = this.userService.getCurrentlyAuthenticatedUser();
         return new Charity(
                 charityCreationDTO.getTitle(),
