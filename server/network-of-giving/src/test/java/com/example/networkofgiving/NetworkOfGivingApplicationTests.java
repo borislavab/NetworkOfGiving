@@ -133,7 +133,7 @@ class NetworkOfGivingApplicationTests {
 	void volunteerToCharity_WithAuthentication_SavesVolunteering() throws Exception {
 		String jwt = this.jwtUtil.createTokenAuthenticationResponse(this.user).getAccessToken();
 		CharityCreationDTO dto = new CharityCreationDTO();
-		dto.setTitle("dto donation title");
+		dto.setTitle("dto volunteer title");
 		dto.setDescription("dto description");
 		dto.setVolunteersRequired(5);
 		dto.setAmountRequired(new BigDecimal(10.0));
@@ -153,6 +153,32 @@ class NetworkOfGivingApplicationTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.header("Authorization", "Bearer " + jwt))
 				.andExpect(status().isCreated());
+		mvc.perform(MockMvcRequestBuilders
+				.delete("/charities/{id}", charityId)
+				.header("Authorization", "Bearer " + jwt))
+				.andExpect(status().isNoContent());
+	}
+
+	@Test
+	void deleteCharity_WithAuthentication_DeletesCharity() throws Exception {
+		String jwt = this.jwtUtil.createTokenAuthenticationResponse(this.user).getAccessToken();
+		CharityCreationDTO dto = new CharityCreationDTO();
+		dto.setTitle("dto delete title");
+		dto.setDescription("dto description");
+		dto.setVolunteersRequired(5);
+		dto.setAmountRequired(new BigDecimal(10.0));
+		mvc.perform(post("/charities")
+				.content(objectMapper.writeValueAsString(dto))
+				.contentType(MediaType.APPLICATION_JSON)
+				.header("Authorization", "Bearer " + jwt))
+				.andExpect(status().isCreated());
+		MvcResult mvcResult = mvc.perform(get("/charities").param("titleFilter", dto.getTitle()))
+				.andExpect(status().isOk()).andReturn();
+		String stringContent = mvcResult.getResponse().getContentAsString();
+		List content = objectMapper.readValue(stringContent, List.class);
+		List<CharityResponseDTO> result = (List<CharityResponseDTO>) content;
+		CharityResponseDTO charityResponseDTO = objectMapper.convertValue(result.get(0), CharityResponseDTO.class);
+		Long charityId = charityResponseDTO.getId();
 		mvc.perform(MockMvcRequestBuilders
 				.delete("/charities/{id}", charityId)
 				.header("Authorization", "Bearer " + jwt))
