@@ -13,6 +13,9 @@ public class CharityBasicResponseDTO implements Serializable {
         this.title = charity.getTitle();
     }
 
+    public CharityBasicResponseDTO() {
+    }
+
     public Long getId() {
         return id;
     }

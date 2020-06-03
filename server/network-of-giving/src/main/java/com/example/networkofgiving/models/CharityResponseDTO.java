@@ -32,6 +32,9 @@ public class CharityResponseDTO extends CharityBasicResponseDTO {
         this.thumbnail = charity.getThumbnail();
     }
 
+    public CharityResponseDTO() {
+    }
+
     public String getDescription() {
         return description;
     }

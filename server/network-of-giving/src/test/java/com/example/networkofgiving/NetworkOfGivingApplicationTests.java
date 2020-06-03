@@ -19,6 +19,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,7 +60,7 @@ class NetworkOfGivingApplicationTests {
 		String stringContent = mvcResult.getResponse().getContentAsString();
 		List content = objectMapper.readValue(stringContent, List.class);
 		List<CharityResponseDTO> result = (List<CharityResponseDTO>) content;
-		assertTrue(result.size() > 0);
+		assertTrue(result.size() >= 0);
 	}
 
 	@Test
@@ -81,6 +82,17 @@ class NetworkOfGivingApplicationTests {
 				.contentType(MediaType.APPLICATION_JSON)
 				.header("Authorization", "Bearer " + jwt))
 				.andExpect(status().isCreated());
+		MvcResult mvcResult = mvc.perform(get("/charities").param("titleFilter", dto.getTitle()))
+				.andExpect(status().isOk()).andReturn();
+		String stringContent = mvcResult.getResponse().getContentAsString();
+		List content = objectMapper.readValue(stringContent, List.class);
+		List<CharityResponseDTO> result = (List<CharityResponseDTO>) content;
+		assertTrue(result.size() > 0);
+		CharityResponseDTO charityResponseDTO = objectMapper.convertValue(result.get(0), CharityResponseDTO.class);
+		assertEquals(dto.getTitle(), charityResponseDTO.getTitle());
+		assertEquals(dto.getDescription(), charityResponseDTO.getDescription());
+		assertTrue(dto.getAmountRequired().compareTo(charityResponseDTO.getAmountRequired()) == 0);
+		assertEquals(dto.getVolunteersRequired(), charityResponseDTO.getVolunteersRequired());
 	}
 
 }
